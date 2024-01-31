@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "heartymeals",
+  "version": "${version}",
+  "name": "Hearty Meals",
+  "description": "Removes hunger and makes food recover health over time",
+  "authors": [
+	"MoriyaShiine",
+	"8onfire"
+  ],
+  "contact": {
+	"homepage": "https://www.curseforge.com/minecraft/mc-mods/hearty-meals",
+	"sources": "https://github.com/MoriyaShiine/hearty-meals",
+	"issues": "https://github.com/MoriyaShiine/hearty-meals/issues"
+  },
+  "license": "All Rights Reserved",
+  "icon": "assets/heartymeals/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "moriyashiine.heartymeals.common.HeartyMeals"
+	],
+	"client": [
+	  "moriyashiine.heartymeals.client.HeartyMealsClient"
+	],
+	"cardinal-components-entity": [
+	  "moriyashiine.heartymeals.common.init.ModEntityComponents"
+	]
+  },
+  "mixins": [
+	"heartymeals.mixins.json"
+  ],
+  "accessWidener": "heartymeals.accesswidener",
+  "depends": {
+	"fabricloader": "*",
+	"minecraft": "~1.20.1",
+	"java": ">=17",
+	"fabric-api": "*"
+  },
+  "breaks": {
+	"appleskin": "*"
+  },
+  "custom": {
+	"cardinal-components": [
+	  "heartymeals:food_healing"
+	]
+  }
+}

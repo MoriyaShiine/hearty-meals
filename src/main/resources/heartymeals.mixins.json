@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "moriyashiine.heartymeals.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+	"BundleItemMixin",
+	"DrinkableItemMixin",
+	"FoodComponentsMixin",
+	"HoneyBottleItemMixin",
+	"HungerManagerMixin",
+	"PlayerEntityMixin",
+	"StatusEffectMixin"
+  ],
+  "client": [
+	"client.ClientPlayerEntityMixin",
+	"client.InGameHudMixin"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}
