@@ -8,6 +8,8 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class ModConfig extends MidnightConfig {
 	@Entry
+	public static boolean disableSprinting = false;
+	@Entry
 	public static boolean fasterFluidConsumption = true;
 	@Entry
 	public static boolean increaseHoneySaturation = true;

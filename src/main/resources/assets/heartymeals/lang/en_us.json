@@ -1,6 +1,7 @@
 {
   "heartymeals.midnightconfig.title": "Hearty Meals",
   "heartymeals.midnightconfig.category.client": "Client",
+  "heartymeals.midnightconfig.disableSprinting": "Disable Sprinting",
   "heartymeals.midnightconfig.fasterFluidConsumption": "Faster Fluid Consumption",
   "heartymeals.midnightconfig.increaseHoneySaturation": "Increase Honey Saturation",
   "heartymeals.midnightconfig.potionBundleStacking": "Potion Bundle Stacking",
