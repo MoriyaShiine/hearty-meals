@@ -4,8 +4,10 @@
 
 package moriyashiine.heartymeals.common.component.entity;
 
+import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -47,6 +49,15 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	@Override
 	public void tick() {
+		if (HeartyMeals.farmersDelightLoaded && obj.hasStatusEffect(EffectsRegistry.NOURISHMENT.get())) {
+			int duration = obj.getStatusEffect(EffectsRegistry.NOURISHMENT.get()).getDuration();
+			if (duration == StatusEffectInstance.INFINITE) {
+				duration = obj.age;
+			}
+			if (duration % 200 == 0) {
+				obj.heal(1);
+			}
+		}
 		if (healAmount > 0) {
 			healTicks++;
 			if (healTicks % ticksPerHeal == 0) {
