@@ -10,6 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,6 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class StatusEffectMixin {
 	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V", shift = At.Shift.BEFORE))
 	private void heartymeals$hungerEffect(LivingEntity entity, int amplifier, CallbackInfo ci) {
+		if (!entity.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
+			amplifier++;
+		}
 		if (amplifier > 0) {
 			int duration = entity.getStatusEffect((StatusEffect) (Object) this).getDuration();
 			if (duration == StatusEffectInstance.INFINITE) {

@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.GameRules;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
 	private final PlayerEntity obj;
@@ -61,7 +62,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		if (healAmount > 0) {
 			healTicks++;
 			if (healTicks % ticksPerHeal == 0) {
-				if (!obj.hasStatusEffect(StatusEffects.HUNGER)) {
+				if (!obj.hasStatusEffect(StatusEffects.HUNGER) && obj.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
 					obj.heal(1);
 				}
 				amountHealed++;

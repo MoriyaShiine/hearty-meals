@@ -5,6 +5,7 @@
 package moriyashiine.heartymeals.client.event;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
@@ -34,7 +35,7 @@ public class RenderFoodHealingEvent {
 		private static int renderTicks = 0;
 
 		public static void displayHealthGained(MinecraftClient client, DrawContext context, PlayerEntity player, float maxHealth) {
-			if (ModConfig.displayHealthGained) {
+			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen) {
 				int health = MathHelper.ceil(player.getHealth());
 				if (health < maxHealth) {
 					int toHeal;
@@ -93,7 +94,7 @@ public class RenderFoodHealingEvent {
 	public static class Tooltip implements ItemTooltipCallback {
 		@Override
 		public void getTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
-			if (ModConfig.displayHealthGained && stack.isFood()) {
+			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.isFood()) {
 				int healAmount = Hud.getHealAmount(stack);
 				if (healAmount > 0) {
 					float seconds = FoodHealingComponent.getMaximumHealTicks(stack.getItem().getFoodComponent()) / 20F;

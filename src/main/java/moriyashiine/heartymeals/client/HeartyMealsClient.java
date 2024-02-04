@@ -4,9 +4,10 @@
 
 package moriyashiine.heartymeals.client;
 
-import moriyashiine.heartymeals.client.event.DisableSprintingClientEvent;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
+import moriyashiine.heartymeals.client.event.ResetValuesEvent;
 import moriyashiine.heartymeals.client.packet.ForceDisableSprintingPacket;
+import moriyashiine.heartymeals.client.packet.SyncNaturalRegenPacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -14,7 +15,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class HeartyMealsClient implements ClientModInitializer {
-	public static boolean forceDisableSprinting = false;
+	public static boolean forceDisableSprinting = false, naturalRegen = true;
 
 	public static boolean leaveMyBarsAloneLoaded = false;
 
@@ -22,7 +23,8 @@ public class HeartyMealsClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		leaveMyBarsAloneLoaded = FabricLoader.getInstance().isModLoaded("leavemybarsalone");
 		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPacket.ID, new ForceDisableSprintingPacket.Receiver());
-		ClientPlayConnectionEvents.DISCONNECT.register(new DisableSprintingClientEvent());
+		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPacket.ID, new SyncNaturalRegenPacket.Receiver());
+		ClientPlayConnectionEvents.DISCONNECT.register(new ResetValuesEvent());
 		ItemTooltipCallback.EVENT.register(new RenderFoodHealingEvent.Tooltip());
 	}
 }
