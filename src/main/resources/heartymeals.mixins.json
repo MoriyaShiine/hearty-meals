@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "moriyashiine.heartymeals.mixin",
+  "plugin": "moriyashiine.heartymeals.common.ModMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
 	"BundleItemMixin",
