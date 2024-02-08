@@ -7,6 +7,7 @@ The features this mod provides are:
 * Adds a tooltip to all food items that shows you how much it heals over time.
 * Adds an overlay to the health bar while holding a food item (or if you are in the process of healing) to show how much health you will gain.
 * Repositions the armor bar to where the hunger bar used to be.
+* Campfires give the Cozy effect when you are nearby, which slowly heals you over time.
 * Fluid consumables such as Honey, Stews, Milk, and Potions are consumed twice as fast.
 * Honey has a much greater saturation modifier.
 * Potions can be stacked in Bundles.
