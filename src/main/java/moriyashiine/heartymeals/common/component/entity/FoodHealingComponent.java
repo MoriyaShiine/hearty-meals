@@ -8,7 +8,11 @@ import com.nhoryzon.mc.farmersdelight.registry.EffectsRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.heartymeals.common.HeartyMeals;
+import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
+import moriyashiine.heartymeals.common.init.ModStatusEffects;
+import moriyashiine.heartymeals.common.init.ModTags;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +20,8 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 
@@ -50,27 +56,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	@Override
 	public void tick() {
-		if (HeartyMeals.farmersDelightLoaded && obj.hasStatusEffect(EffectsRegistry.NOURISHMENT.get())) {
-			int duration = obj.getStatusEffect(EffectsRegistry.NOURISHMENT.get()).getDuration();
-			if (duration == StatusEffectInstance.INFINITE) {
-				duration = obj.age;
-			}
-			if (duration % 200 == 0) {
-				obj.heal(1);
-			}
-		}
-		if (healAmount > 0) {
-			healTicks++;
-			if (healTicks % ticksPerHeal == 0) {
-				if (!obj.hasStatusEffect(StatusEffects.HUNGER) && obj.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
-					obj.heal(1);
-				}
-				amountHealed++;
-			}
-			if (healTicks == getMaximumHealTicks()) {
-				healAmount = ticksPerHeal = healTicks = amountHealed = 0;
-			}
-		}
+		tickFoodHealing();
+		tickCampfire();
+		tickNourishing();
 	}
 
 	public void sync() {
@@ -124,5 +112,52 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	public static int getTicksPerHeal(float saturationModifier) {
 		return (int) MathHelper.clamp(20 * (1F / saturationModifier), 0, 60);
+	}
+
+	private void tickFoodHealing() {
+		if (healAmount > 0) {
+			healTicks++;
+			if (healTicks % ticksPerHeal == 0) {
+				if (!obj.hasStatusEffect(StatusEffects.HUNGER) && obj.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
+					obj.heal(1);
+				}
+				amountHealed++;
+			}
+			if (healTicks == getMaximumHealTicks()) {
+				healAmount = ticksPerHeal = healTicks = amountHealed = 0;
+			}
+		}
+	}
+
+	private void tickCampfire() {
+		if (obj.age % 20 == 0) {
+			if (ModConfig.campfireHealing) {
+				if (BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> {
+					BlockState state = obj.getWorld().getBlockState(foundPos);
+					if (state.isIn(ModTags.BlockTags.COZY_SOURCES)) {
+						return !state.contains(Properties.LIT) || state.get(Properties.LIT);
+					}
+					return false;
+				}).isPresent()) {
+					obj.addStatusEffect(new StatusEffectInstance(ModStatusEffects.COZY, StatusEffectInstance.INFINITE, 0, true, false, true));
+				} else {
+					obj.removeStatusEffect(ModStatusEffects.COZY);
+				}
+			} else {
+				obj.removeStatusEffect(ModStatusEffects.COZY);
+			}
+		}
+	}
+
+	private void tickNourishing() {
+		if (HeartyMeals.farmersDelightLoaded && obj.hasStatusEffect(EffectsRegistry.NOURISHMENT.get())) {
+			int duration = obj.getStatusEffect(EffectsRegistry.NOURISHMENT.get()).getDuration();
+			if (duration == StatusEffectInstance.INFINITE) {
+				duration = obj.age;
+			}
+			if (duration % 200 == 0) {
+				obj.heal(1);
+			}
+		}
 	}
 }

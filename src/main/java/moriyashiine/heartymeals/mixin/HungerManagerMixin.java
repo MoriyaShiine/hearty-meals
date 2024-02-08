@@ -4,6 +4,7 @@
 
 package moriyashiine.heartymeals.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.entity.player.HungerManager;
@@ -36,6 +37,11 @@ public abstract class HungerManagerMixin {
 		setFoodLevel(20);
 		setSaturationLevel(20);
 		setExhaustion(0);
+	}
+
+	@ModifyExpressionValue(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;canFoodHeal()Z"))
+	private boolean heartymeals$preventNaturalHealing(boolean value) {
+		return false;
 	}
 
 	@Inject(method = "getFoodLevel", at = @At("HEAD"), cancellable = true)

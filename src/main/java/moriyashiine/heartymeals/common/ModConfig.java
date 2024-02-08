@@ -8,6 +8,8 @@ import eu.midnightdust.lib.config.MidnightConfig;
 
 public class ModConfig extends MidnightConfig {
 	@Entry
+	public static boolean campfireHealing = true;
+	@Entry
 	public static boolean disableSprinting = false;
 	@Entry
 	public static boolean fasterFluidConsumption = true;

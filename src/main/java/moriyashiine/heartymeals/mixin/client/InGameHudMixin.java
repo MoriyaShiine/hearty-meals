@@ -4,13 +4,20 @@
 
 package moriyashiine.heartymeals.mixin.client;
 
+import com.google.common.collect.Ordering;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -24,13 +31,17 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
 	@Unique
 	private static final Identifier EMPTY_TEXTURE = new Identifier("textures/block/redstone_dust_overlay.png");
 
 	@Unique
-	private static boolean setValues = false;
+	private static boolean setValues = false, isCozy = false;
 
 	@Unique
 	private static int heartIndex = -1;
@@ -77,6 +88,24 @@ public abstract class InGameHudMixin {
 	@ModifyArg(method = "drawHeart", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
 	private Identifier heartymeals$displayHealthGained(Identifier value) {
 		RenderFoodHealingEvent.Hud.texture = value;
+		return value;
+	}
+
+	@WrapOperation(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Ordering;sortedCopy(Ljava/lang/Iterable;)Ljava/util/List;"))
+	private List<StatusEffectInstance> heartymeals$prioritizeCozy(Ordering<?> instance, Iterable<StatusEffectInstance> elements, Operation<List<StatusEffectInstance>> original) {
+		return HeartyMealsClient.prioritizeCozy(instance, elements, original);
+	}
+
+	@Inject(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/effect/StatusEffectInstance;getEffectType()Lnet/minecraft/entity/effect/StatusEffect;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+	private void heartymeals$cozyBackground(DrawContext context, CallbackInfo ci, Collection collection, int i, int j, StatusEffectSpriteManager statusEffectSpriteManager, List<?> list, Iterator<?> var7, StatusEffectInstance statusEffectInstance, StatusEffect statusEffect) {
+		isCozy = statusEffect == ModStatusEffects.COZY;
+	}
+
+	@ModifyArg(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 0))
+	private Identifier heartymeals$cozyBackground(Identifier value) {
+		if (isCozy) {
+			return HeartyMealsClient.COZY_BACKGROUND;
+		}
 		return value;
 	}
 

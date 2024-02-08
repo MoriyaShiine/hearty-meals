@@ -11,9 +11,11 @@
 	"HoneyBottleItemMixin",
 	"HungerManagerMixin",
 	"PlayerEntityMixin",
-	"StatusEffectMixin"
+	"StatusEffectMixin",
+	"StatusEffectUtilMixin"
   ],
   "client": [
+	"client.AbstractInventoryScreenMixin",
 	"client.ClientPlayerEntityMixin",
 	"client.InGameHudMixin",
 	"integration.farmersdelight.client.NourishmentHungerOverlayMixin"
