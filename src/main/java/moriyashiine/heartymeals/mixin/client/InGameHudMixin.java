@@ -54,6 +54,9 @@ public abstract class InGameHudMixin {
 	private int scaledHeight;
 
 	@Shadow
+	protected abstract PlayerEntity getCameraPlayer();
+
+	@Shadow
 	protected abstract LivingEntity getRiddenEntity();
 
 	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/gui/hud/InGameHud$HeartType;fromPlayerState(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/client/gui/hud/InGameHud$HeartType;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
@@ -105,6 +108,22 @@ public abstract class InGameHudMixin {
 	private Identifier heartymeals$cozyBackground(Identifier value) {
 		if (isCozy) {
 			return HeartyMealsClient.COZY_BACKGROUND;
+		}
+		return value;
+	}
+
+	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 6), index = 2)
+	private int heartymeals$lowerAirBar0(int value) {
+		if (getCameraPlayer().getArmor() <= 0) {
+			return value + 10;
+		}
+		return value;
+	}
+
+	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 7), index = 2)
+	private int heartymeals$lowerAirBar1(int value) {
+		if (getCameraPlayer().getArmor() <= 0) {
+			return value + 10;
 		}
 		return value;
 	}
