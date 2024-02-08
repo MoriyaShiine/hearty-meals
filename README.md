@@ -1,5 +1,4 @@
 # Hearty Meals
-
 Hearty Meals is a small but impactful mod that removes the hunger system in favor of having food heal you directly.
 
 The features this mod provides are:
