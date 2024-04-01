@@ -2,7 +2,7 @@
  * All Rights Reserved (c) MoriyaShiine
  */
 
-package moriyashiine.heartymeals.mixin.integration.farmersdelight.client;
+package moriyashiine.heartymeals.mixin.integration.farmersdelight.fabric.client;
 
 import com.nhoryzon.mc.farmersdelight.client.gui.NourishmentHungerOverlay;
 import net.minecraft.client.gui.DrawContext;

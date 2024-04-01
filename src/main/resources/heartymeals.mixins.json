@@ -18,7 +18,8 @@
 	"client.AbstractInventoryScreenMixin",
 	"client.ClientPlayerEntityMixin",
 	"client.InGameHudMixin",
-	"integration.farmersdelight.client.NourishmentHungerOverlayMixin"
+	"integration.farmersdelight.fabric.client.NourishmentHungerOverlayMixin",
+  	"integration.farmersdelight.refabricated.client.NourishmentHungerOverlayMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

@@ -24,8 +24,10 @@ public class ModMixinPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		if (mixinClassName.contains("integration.farmersdelight")) {
-			return FabricLoader.getInstance().isModLoaded("farmersdelight");
+		if (mixinClassName.contains("integration.farmersdelight.fabric")) {
+			return HeartyMeals.farmersDelightLoaded && !HeartyMeals.farmersDelightRefabricatedLoaded;
+		} else if (mixinClassName.contains("integration.farmersdelight.refabricated")) {
+			return HeartyMeals.farmersDelightLoaded && HeartyMeals.farmersDelightRefabricatedLoaded;
 		}
 		return true;
 	}

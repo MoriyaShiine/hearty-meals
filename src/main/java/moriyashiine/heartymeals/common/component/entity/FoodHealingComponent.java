@@ -13,6 +13,7 @@ import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import moriyashiine.heartymeals.common.init.ModTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +25,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
+import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
 	private final PlayerEntity obj;
@@ -150,13 +152,16 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	private void tickNourishing() {
-		if (HeartyMeals.farmersDelightLoaded && obj.hasStatusEffect(EffectsRegistry.NOURISHMENT.get())) {
-			int duration = obj.getStatusEffect(EffectsRegistry.NOURISHMENT.get()).getDuration();
-			if (duration == StatusEffectInstance.INFINITE) {
-				duration = obj.age;
-			}
-			if (duration % 200 == 0) {
-				obj.heal(1);
+		if (HeartyMeals.farmersDelightLoaded) {
+			StatusEffect effect = HeartyMeals.farmersDelightRefabricatedLoaded ? ModEffects.NOURISHMENT.get() : EffectsRegistry.NOURISHMENT.get();
+			if (obj.hasStatusEffect(effect)) {
+				int duration = obj.getStatusEffect(effect).getDuration();
+				if (duration == StatusEffectInstance.INFINITE) {
+					duration = obj.age;
+				}
+				if (duration % 200 == 0) {
+					obj.heal(1);
+				}
 			}
 		}
 	}
