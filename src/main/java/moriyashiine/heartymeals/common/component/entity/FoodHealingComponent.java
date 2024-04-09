@@ -17,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
@@ -105,12 +106,20 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		}
 	}
 
-	public static int getMaximumHealTicks(FoodComponent foodComponent) {
-		return foodComponent.getHunger() * getTicksPerHeal(foodComponent.getSaturationModifier());
+	public static int getMaximumHealTicks(ItemStack stack) {
+		FoodComponent foodComponent = stack.getItem().getFoodComponent();
+		return foodComponent.getHunger() * getTicksPerHeal(getModifiedSaturationModifier(stack, foodComponent.getSaturationModifier()));
 	}
 
-	public static int getTicksPerHeal(float saturationModifier) {
-		return (int) MathHelper.clamp(20 * (1F / saturationModifier), 0, 60);
+	public static float getModifiedSaturationModifier(ItemStack stack, float saturationModifier) {
+		if (stack.isIn(ModTags.ItemTags.INCREASED_SATURATION)) {
+			return saturationModifier * 2.6F;
+		}
+		return saturationModifier;
+	}
+
+	private static int getTicksPerHeal(float saturationModifier) {
+		return (int) MathHelper.clamp(20F / saturationModifier, 0, 60);
 	}
 
 	private void tickFoodHealing() {

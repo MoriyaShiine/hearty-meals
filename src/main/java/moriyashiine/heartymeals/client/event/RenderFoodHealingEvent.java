@@ -97,7 +97,7 @@ public class RenderFoodHealingEvent {
 			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.isFood()) {
 				int healAmount = Hud.getHealAmount(stack);
 				if (healAmount > 0) {
-					float seconds = FoodHealingComponent.getMaximumHealTicks(stack.getItem().getFoodComponent()) / 20F;
+					float seconds = FoodHealingComponent.getMaximumHealTicks(stack) / 20F;
 					MutableText text = Text.literal(DecimalFormat.getNumberInstance().format(healAmount / 2F) + " ").formatted(Formatting.GRAY);
 					text.append(Text.literal("❤ ").formatted(Formatting.RED));
 					text.append(Text.literal("/ " + DecimalFormat.getNumberInstance().format(seconds) + "s").formatted(Formatting.GRAY));

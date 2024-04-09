@@ -5,10 +5,15 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -58,5 +63,10 @@ public abstract class HungerManagerMixin {
 			foodHealingComponent.startHealing(food, saturationModifier);
 			foodHealingComponent.sync();
 		}
+	}
+
+	@WrapOperation(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/FoodComponent;getSaturationModifier()F"))
+	private float heartymeals$increasedSaturation(FoodComponent instance, Operation<Float> original, Item item, ItemStack stack) {
+		return FoodHealingComponent.getModifiedSaturationModifier(stack, original.call(instance));
 	}
 }
