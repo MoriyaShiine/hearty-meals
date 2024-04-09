@@ -34,6 +34,7 @@ public class ModMixinPlugin implements IMixinConfigPlugin {
 					return mixinClassName.contains(".fabric");
 				}
 			}
+			return false;
 		}
 		return true;
 	}
