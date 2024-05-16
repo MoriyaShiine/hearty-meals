@@ -34,7 +34,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
 	private void heartymeals$startHealing(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
-		if (stack.isFood() && !ModEntityComponents.FOOD_HEALING.get(this).canEat()) {
+		if (!ModEntityComponents.FOOD_HEALING.get(this).canEat()) {
 			cir.setReturnValue(ItemStack.EMPTY);
 		}
 	}

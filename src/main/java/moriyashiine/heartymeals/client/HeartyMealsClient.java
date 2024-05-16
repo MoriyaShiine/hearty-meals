@@ -8,25 +8,22 @@ import com.google.common.collect.Ordering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.client.event.ResetValuesEvent;
-import moriyashiine.heartymeals.client.packet.ForceDisableSprintingPacket;
-import moriyashiine.heartymeals.client.packet.SyncNaturalRegenPacket;
-import moriyashiine.heartymeals.common.HeartyMeals;
+import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
+import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.util.Identifier;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class HeartyMealsClient implements ClientModInitializer {
-	public static final Identifier COZY_BACKGROUND = HeartyMeals.id("textures/gui/cozy_background.png");
-
 	public static boolean forceDisableSprinting = false, naturalRegen = true;
 
 	public static boolean leaveMyBarsAloneLoaded = false;
@@ -39,8 +36,11 @@ public class HeartyMealsClient implements ClientModInitializer {
 	}
 
 	private void initPackets() {
-		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPacket.ID, new ForceDisableSprintingPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPacket.ID, new SyncNaturalRegenPacket.Receiver());
+		PayloadTypeRegistry.playS2C().register(ForceDisableSprintingPayload.ID, ForceDisableSprintingPayload.CODEC);
+		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPayload.ID, new ForceDisableSprintingPayload.Receiver());
+
+		PayloadTypeRegistry.playS2C().register(SyncNaturalRegenPayload.ID, SyncNaturalRegenPayload.CODEC);
+		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPayload.ID, new SyncNaturalRegenPayload.Receiver());
 	}
 
 	private void initEvents() {

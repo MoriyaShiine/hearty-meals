@@ -34,13 +34,12 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
-    include modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
+    include modApi("org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinal_components_version}")
+    include modApi("org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}")
     include modApi("maven.modrinth:midnightlib:${midnightlib_version}")
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modCompileOnly "maven.modrinth:farmers-delight-fabric:${farmers_delight_fabric_version}"
     modCompileOnly "maven.modrinth:farmers-delight-refabricated:${farmers_delight_refabricated_version}"
 
     modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
@@ -55,14 +54,14 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
+    it.options.release = 21
 }
 
 java {
     withSourcesJar()
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {

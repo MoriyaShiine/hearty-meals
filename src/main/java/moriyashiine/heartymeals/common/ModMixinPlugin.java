@@ -5,7 +5,6 @@
 package moriyashiine.heartymeals.common;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -26,15 +25,7 @@ public class ModMixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
 		if (mixinClassName.contains("integration.farmersdelight")) {
-			ModContainer container = FabricLoader.getInstance().getModContainer("farmersdelight").orElse(null);
-			if (container != null) {
-				if (container.getMetadata().getVersion().getFriendlyString().split("-")[1].startsWith("2.")) {
-					return mixinClassName.contains(".refabricated");
-				} else {
-					return mixinClassName.contains(".fabric");
-				}
-			}
-			return false;
+			return FabricLoader.getInstance().isModLoaded("farmersdelight");
 		}
 		return true;
 	}

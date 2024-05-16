@@ -21,7 +21,7 @@ public class StatusEffectUtilMixin {
 	private static final Text COZY_DURATION_TEXT = Text.translatable("effect.heartymeals.cozy.description").formatted(Formatting.ITALIC);
 
 	@Inject(method = "getDurationText", at = @At("HEAD"), cancellable = true)
-	private static void heartymeals$cozyNoDuration(StatusEffectInstance effect, float multiplier, CallbackInfoReturnable<Text> cir) {
+	private static void heartymeals$cozyNoDuration(StatusEffectInstance effect, float multiplier, float tickRate, CallbackInfoReturnable<Text> cir) {
 		if (effect.getEffectType() == ModStatusEffects.COZY) {
 			cir.setReturnValue(COZY_DURATION_TEXT);
 		}

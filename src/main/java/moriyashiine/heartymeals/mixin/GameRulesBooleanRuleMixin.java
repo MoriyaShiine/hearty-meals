@@ -5,7 +5,7 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.mojang.brigadier.context.CommandContext;
-import moriyashiine.heartymeals.client.packet.SyncNaturalRegenPacket;
+import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +21,6 @@ public class GameRulesBooleanRuleMixin {
 
 	@Inject(method = "setFromArgument", at = @At("TAIL"))
 	private void heartymeals$syncNaturalRegen(CommandContext<ServerCommandSource> context, String name, CallbackInfo ci) {
-		context.getSource().getServer().getPlayerManager().getPlayerList().forEach(foundPlayer -> SyncNaturalRegenPacket.send(foundPlayer, value));
+		context.getSource().getServer().getPlayerManager().getPlayerList().forEach(foundPlayer -> SyncNaturalRegenPayload.send(foundPlayer, value));
 	}
 }

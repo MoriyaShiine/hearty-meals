@@ -4,13 +4,13 @@
 
 package moriyashiine.heartymeals.common.init;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
-import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
+import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 
 public class ModEntityComponents implements EntityComponentInitializer {
 	public static final ComponentKey<FoodHealingComponent> FOOD_HEALING = ComponentRegistry.getOrCreate(HeartyMeals.id("food_healing"), FoodHealingComponent.class);

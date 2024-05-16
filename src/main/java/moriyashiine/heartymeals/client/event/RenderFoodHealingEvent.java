@@ -13,8 +13,10 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -27,10 +29,9 @@ import java.util.List;
 
 public class RenderFoodHealingEvent {
 	public static class Hud {
-		public static Identifier texture = null;
+		public static Identifier fullTexture = null, halfTexture = null;
 		public static InGameHud.HeartType heartType;
 		public static int[] xPoses = null, yPoses = null;
-		public static int v = 0;
 
 		private static int renderTicks = 0;
 
@@ -60,14 +61,15 @@ public class RenderFoodHealingEvent {
 							int index = i / 2;
 							int currentHealth = i - health;
 							if (currentHealth < toHeal) {
-								int xOffset = 0, uOffset = 0;
+								boolean currentlyHalf = false;
+								int xOffset = 0;
 								if (i % 2 == 1) {
 									xOffset = 5;
 								}
 								if (health % 2 != currentHealth % 2) {
-									uOffset = -4;
+									currentlyHalf = true;
 								}
-								context.drawTexture(texture, xPoses[index] + xOffset, yPoses[index], heartType.getU(true, false) + uOffset, v, 5, 8);
+								context.drawGuiTexture(currentlyHalf ? fullTexture : halfTexture, 9, 9, currentlyHalf ? 5 : 0, 0, xPoses[index] + xOffset, yPoses[index], 5, 9);
 							}
 						}
 						context.setShaderColor(1, 1, 1, 1);
@@ -77,15 +79,14 @@ public class RenderFoodHealingEvent {
 					}
 				}
 			}
-			texture = null;
+			fullTexture = halfTexture = null;
 			heartType = null;
 			xPoses = yPoses = null;
-			v = 0;
 		}
 
 		private static int getHealAmount(ItemStack stack) {
-			if (stack.isFood()) {
-				return stack.getItem().getFoodComponent().getHunger();
+			if (stack.contains(DataComponentTypes.FOOD)) {
+				return stack.get(DataComponentTypes.FOOD).nutrition();
 			}
 			return 0;
 		}
@@ -93,8 +94,8 @@ public class RenderFoodHealingEvent {
 
 	public static class Tooltip implements ItemTooltipCallback {
 		@Override
-		public void getTooltip(ItemStack stack, TooltipContext context, List<Text> lines) {
-			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.isFood()) {
+		public void getTooltip(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
+			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.contains(DataComponentTypes.FOOD)) {
 				int healAmount = Hud.getHealAmount(stack);
 				if (healAmount > 0) {
 					float seconds = FoodHealingComponent.getMaximumHealTicks(stack) / 20F;

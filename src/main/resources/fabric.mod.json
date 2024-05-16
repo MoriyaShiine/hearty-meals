@@ -9,7 +9,7 @@
 	"8onfire"
   ],
   "contact": {
-	"homepage": "https://www.curseforge.com/minecraft/mc-mods/hearty-meals",
+	"homepage": "https://modrinth.com/mod/hearty-meals",
 	"sources": "https://github.com/MoriyaShiine/hearty-meals",
 	"issues": "https://github.com/MoriyaShiine/hearty-meals/issues"
   },
@@ -33,8 +33,8 @@
   "accessWidener": "heartymeals.accesswidener",
   "depends": {
 	"fabricloader": "*",
-	"minecraft": "~1.20.1",
-	"java": ">=17",
+	"minecraft": "~1.20.6",
+	"java": ">=21",
 	"fabric-api": "*"
   },
   "breaks": {

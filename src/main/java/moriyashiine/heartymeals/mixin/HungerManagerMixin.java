@@ -9,10 +9,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -56,17 +55,17 @@ public abstract class HungerManagerMixin {
 		}
 	}
 
-	@Inject(method = "add", at = @At("HEAD"))
-	private void heartymeals$treatAsHealth(int food, float saturationModifier, CallbackInfo ci) {
+	@Inject(method = "addInternal", at = @At("HEAD"))
+	private void heartymeals$treatAsHealth(int food, float saturation, CallbackInfo ci) {
 		if (cachedPlayer != null && !cachedPlayer.getWorld().isClient) {
 			FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(cachedPlayer);
-			foodHealingComponent.startHealing(food, saturationModifier);
+			foodHealingComponent.startHealing(food, saturation);
 			foodHealingComponent.sync();
 		}
 	}
 
-	@WrapOperation(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/FoodComponent;getSaturationModifier()F"))
-	private float heartymeals$increasedSaturation(FoodComponent instance, Operation<Float> original, Item item, ItemStack stack) {
-		return FoodHealingComponent.getModifiedSaturationModifier(stack, original.call(instance));
+	@WrapOperation(method = "eat", at = @At(value = "INVOKE", target = "Lnet/minecraft/component/type/FoodComponent;saturation()F"))
+	private float heartymeals$increasedSaturation(FoodComponent instance, Operation<Float> original, ItemStack stack) {
+		return FoodHealingComponent.getModifiedSaturation(stack, original.call(instance));
 	}
 }

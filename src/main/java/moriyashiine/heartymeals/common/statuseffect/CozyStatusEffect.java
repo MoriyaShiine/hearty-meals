@@ -21,8 +21,9 @@ public class CozyStatusEffect extends StatusEffect {
 	}
 
 	@Override
-	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+	public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
 		entity.heal(amplifier + 1);
+		return true;
 	}
 
 	@Override

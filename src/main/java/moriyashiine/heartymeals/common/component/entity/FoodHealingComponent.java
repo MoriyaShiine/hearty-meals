@@ -4,26 +4,28 @@
 
 package moriyashiine.heartymeals.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import moriyashiine.heartymeals.common.init.ModTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
 	private final PlayerEntity obj;
@@ -37,7 +39,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		fromSaturation = tag.getBoolean("FromSaturation");
 		healAmount = tag.getInt("HealAmount");
 		ticksPerHeal = tag.getInt("TicksPerHeal");
@@ -46,7 +48,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		tag.putBoolean("FromSaturation", fromSaturation);
 		tag.putInt("HealAmount", healAmount);
 		tag.putInt("TicksPerHeal", ticksPerHeal);
@@ -85,7 +87,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		return healAmount == 0;
 	}
 
-	public void startHealing(int food, float saturationModifier) {
+	public void startHealing(int food, float saturation) {
 		if (fromSaturation) {
 			fromSaturation = false;
 			int duration = obj.getStatusEffect(StatusEffects.SATURATION).getDuration();
@@ -97,29 +99,35 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 			}
 		} else if (food > 0) {
 			healAmount = food;
-			ticksPerHeal = getTicksPerHeal(saturationModifier);
+			ticksPerHeal = getTicksPerHeal(food, saturation);
 			for (Item item : Registries.ITEM) {
-				if (item.isFood()) {
+				if (item.getComponents().contains(DataComponentTypes.FOOD)) {
 					obj.getItemCooldownManager().set(item, getMaximumHealTicks());
+				}
+			}
+			for (int i = 0; i < obj.getInventory().size(); i++) {
+				ItemStack stack = obj.getInventory().getStack(i);
+				if (stack.contains(DataComponentTypes.FOOD)) {
+					obj.getItemCooldownManager().set(stack.getItem(), getMaximumHealTicks());
 				}
 			}
 		}
 	}
 
 	public static int getMaximumHealTicks(ItemStack stack) {
-		FoodComponent foodComponent = stack.getItem().getFoodComponent();
-		return foodComponent.getHunger() * getTicksPerHeal(getModifiedSaturationModifier(stack, foodComponent.getSaturationModifier()));
+		FoodComponent foodComponent = stack.get(DataComponentTypes.FOOD);
+		return foodComponent.nutrition() * getTicksPerHeal(foodComponent.nutrition(), getModifiedSaturation(stack, foodComponent.saturation()));
 	}
 
-	public static float getModifiedSaturationModifier(ItemStack stack, float saturationModifier) {
+	public static float getModifiedSaturation(ItemStack stack, float saturation) {
 		if (stack.isIn(ModTags.ItemTags.INCREASED_SATURATION)) {
-			return saturationModifier * 2.6F;
+			return saturation * 2.6F;
 		}
-		return saturationModifier;
+		return saturation;
 	}
 
-	private static int getTicksPerHeal(float saturationModifier) {
-		return (int) MathHelper.clamp(20F / saturationModifier, 0, 60);
+	private static int getTicksPerHeal(int nutrition, float saturation) {
+		return (int) MathHelper.clamp(20F / (saturation / nutrition / 2), 0, 60);
 	}
 
 	private void tickFoodHealing() {

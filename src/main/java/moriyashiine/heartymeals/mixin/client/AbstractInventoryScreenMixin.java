@@ -8,6 +8,7 @@ import com.google.common.collect.Ordering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
+import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -23,6 +24,11 @@ import java.util.List;
 @Mixin(AbstractInventoryScreen.class)
 public class AbstractInventoryScreenMixin {
 	@Unique
+	private static final Identifier COZY_BACKGROUND_LARGE = HeartyMeals.id("container/inventory/cozy_background_large");
+	@Unique
+	private static final Identifier COZY_BACKGROUND_SMALL = HeartyMeals.id("container/inventory/cozy_background_small");
+
+	@Unique
 	private static boolean isCozy = false;
 
 	@WrapOperation(method = "drawStatusEffects", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Ordering;sortedCopy(Ljava/lang/Iterable;)Ljava/util/List;"))
@@ -36,10 +42,18 @@ public class AbstractInventoryScreenMixin {
 		return statusEffectInstance;
 	}
 
-	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
-	private Identifier heartymeals$cozyBackground(Identifier value) {
+	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
+	private Identifier heartymeals$cozyBackgroundLarge(Identifier value) {
 		if (isCozy) {
-			return HeartyMealsClient.COZY_BACKGROUND;
+			return COZY_BACKGROUND_LARGE;
+		}
+		return value;
+	}
+
+	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
+	private Identifier heartymeals$cozyBackgroundSmall(Identifier value) {
+		if (isCozy) {
+			return COZY_BACKGROUND_SMALL;
 		}
 		return value;
 	}
