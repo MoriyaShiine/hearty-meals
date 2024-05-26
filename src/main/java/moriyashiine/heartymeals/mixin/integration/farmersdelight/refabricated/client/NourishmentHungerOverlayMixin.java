@@ -1,7 +1,6 @@
 /*
- * All Rights Reserved (c) MoriyaShiine
+ * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
-
 package moriyashiine.heartymeals.mixin.integration.farmersdelight.refabricated.client;
 
 import net.minecraft.client.gui.DrawContext;

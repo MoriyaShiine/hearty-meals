@@ -1,7 +1,6 @@
 /*
- * All Rights Reserved (c) MoriyaShiine
+ * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
-
 package moriyashiine.heartymeals.common.component.entity;
 
 import moriyashiine.heartymeals.common.HeartyMeals;
