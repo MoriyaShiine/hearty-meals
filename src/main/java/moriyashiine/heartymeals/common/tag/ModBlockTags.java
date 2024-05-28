@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) MoriyaShiine. All Rights Reserved.
+ */
 package moriyashiine.heartymeals.common.tag;
 
 import moriyashiine.heartymeals.common.HeartyMeals;

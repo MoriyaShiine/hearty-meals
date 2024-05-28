@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) MoriyaShiine. All Rights Reserved.
+ */
 package moriyashiine.heartymeals.data.provider;
 
 import moriyashiine.heartymeals.common.tag.ModBlockTags;
