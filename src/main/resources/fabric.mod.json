@@ -17,6 +17,9 @@
   "icon": "assets/heartymeals/icon.png",
   "environment": "*",
   "entrypoints": {
+	"fabric-datagen": [
+	  "moriyashiine.heartymeals.data.ModDataGenerator"
+	],
 	"main": [
 	  "moriyashiine.heartymeals.common.HeartyMeals"
 	],

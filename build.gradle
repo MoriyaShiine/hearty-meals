@@ -35,6 +35,10 @@ loom {
     accessWidenerPath = file("src/main/resources/heartymeals.accesswidener")
 }
 
+fabricApi {
+    configureDataGeneration()
+}
+
 repositories {
     chenille.repositories.ladysnake()
     chenille.repositories.terraformers()

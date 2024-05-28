@@ -7,7 +7,8 @@ import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
-import moriyashiine.heartymeals.common.init.ModTags;
+import moriyashiine.heartymeals.common.tag.ModBlockTags;
+import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
@@ -119,7 +120,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	public static float getModifiedSaturation(ItemStack stack, float saturation) {
-		if (stack.isIn(ModTags.ItemTags.INCREASED_SATURATION)) {
+		if (stack.isIn(ModItemTags.INCREASED_SATURATION)) {
 			return saturation * 2.6F;
 		}
 		return saturation;
@@ -149,7 +150,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 			if (ModConfig.campfireHealing) {
 				if (BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> {
 					BlockState state = obj.getWorld().getBlockState(foundPos);
-					if (state.isIn(ModTags.BlockTags.COZY_SOURCES)) {
+					if (state.isIn(ModBlockTags.COZY_SOURCES)) {
 						return !state.contains(Properties.LIT) || state.get(Properties.LIT);
 					}
 					return false;
