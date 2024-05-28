@@ -1,6 +1,7 @@
 {
   "effect.heartymeals.cozy": "Cozy",
   "effect.heartymeals.cozy.description": "From Campfire",
+  "tag.item.heartymeals.increased_saturation": "Increased Saturation",
   "heartymeals.midnightconfig.title": "Hearty Meals",
   "heartymeals.midnightconfig.category.client": "Client",
   "heartymeals.midnightconfig.campfireHealing": "Campfire Healing",
