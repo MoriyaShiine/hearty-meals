@@ -14,7 +14,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
@@ -30,21 +29,18 @@ public class HeartyMealsClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		leaveMyBarsAloneLoaded = FabricLoader.getInstance().isModLoaded("leavemybarsalone");
-		initPackets();
 		initEvents();
-	}
-
-	private void initPackets() {
-		PayloadTypeRegistry.playS2C().register(ForceDisableSprintingPayload.ID, ForceDisableSprintingPayload.CODEC);
-		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPayload.ID, new ForceDisableSprintingPayload.Receiver());
-
-		PayloadTypeRegistry.playS2C().register(SyncNaturalRegenPayload.ID, SyncNaturalRegenPayload.CODEC);
-		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPayload.ID, new SyncNaturalRegenPayload.Receiver());
+		initPayloads();
 	}
 
 	private void initEvents() {
 		ClientPlayConnectionEvents.DISCONNECT.register(new ResetValuesEvent());
 		ItemTooltipCallback.EVENT.register(new RenderFoodHealingEvent.Tooltip());
+	}
+
+	private void initPayloads() {
+		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPayload.ID, new ForceDisableSprintingPayload.Receiver());
+		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPayload.ID, new SyncNaturalRegenPayload.Receiver());
 	}
 
 	public static List<StatusEffectInstance> prioritizeCozy(Ordering<?> instance, Iterable<StatusEffectInstance> elements, Operation<List<StatusEffectInstance>> original) {

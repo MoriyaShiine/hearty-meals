@@ -4,11 +4,14 @@
 package moriyashiine.heartymeals.common;
 
 import eu.midnightdust.lib.config.MidnightConfig;
+import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
+import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
 import moriyashiine.heartymeals.common.event.SyncValuesEvent;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -35,6 +38,7 @@ public class HeartyMeals implements ModInitializer {
 		 */
 		ModStatusEffects.init();
 		initEvents();
+		initPayloads();
 	}
 
 	public static Identifier id(String value) {
@@ -44,5 +48,10 @@ public class HeartyMeals implements ModInitializer {
 	private void initEvents() {
 		ServerPlayConnectionEvents.JOIN.register(new SyncValuesEvent());
 		EntitySleepEvents.STOP_SLEEPING.register(new BedHealingEvent());
+	}
+
+	private void initPayloads() {
+		PayloadTypeRegistry.playS2C().register(ForceDisableSprintingPayload.ID, ForceDisableSprintingPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(SyncNaturalRegenPayload.ID, SyncNaturalRegenPayload.CODEC);
 	}
 }
