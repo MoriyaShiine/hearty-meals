@@ -13,7 +13,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public record ForceDisableSprintingPayload() implements CustomPayload {
-	public static final CustomPayload.Id<ForceDisableSprintingPayload> ID = CustomPayload.id(HeartyMeals.id("force_disable_sprinting").toString());
+	public static final CustomPayload.Id<ForceDisableSprintingPayload> ID = new Id<>(HeartyMeals.id("force_disable_sprinting"));
 	public static final PacketCodec<PacketByteBuf, ForceDisableSprintingPayload> CODEC = PacketCodec.unit(new ForceDisableSprintingPayload());
 
 	@Override

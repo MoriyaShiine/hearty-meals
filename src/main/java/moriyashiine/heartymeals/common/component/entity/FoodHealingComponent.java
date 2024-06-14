@@ -126,8 +126,12 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		return saturation;
 	}
 
+	public static float getOriginalSaturation(float saturation, float nutrition) {
+		return saturation / nutrition / 2;
+	}
+
 	private static int getTicksPerHeal(int nutrition, float saturation) {
-		return (int) MathHelper.clamp(20F / (saturation / nutrition / 2), 0, 60);
+		return (int) MathHelper.clamp(20F / getOriginalSaturation(saturation, nutrition), 0, 60);
 	}
 
 	private void tickFoodHealing() {

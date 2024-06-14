@@ -14,8 +14,8 @@ import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -101,7 +101,7 @@ public abstract class InGameHudMixin {
 	}
 
 	@Inject(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/effect/StatusEffectInstance;getEffectType()Lnet/minecraft/registry/entry/RegistryEntry;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void heartymeals$cozyBackground(DrawContext context, float tickDelta, CallbackInfo ci, Collection<?> collection, int i, int j, StatusEffectSpriteManager statusEffectSpriteManager, List<?> list, Iterator<?> var8, StatusEffectInstance statusEffectInstance, RegistryEntry<StatusEffect> registryEntry) {
+	private void heartymeals$cozyBackground(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci, Collection<?> collection, int i, int j, StatusEffectSpriteManager statusEffectSpriteManager, List<?> list, Iterator<?> var8, StatusEffectInstance statusEffectInstance, RegistryEntry<?> registryEntry) {
 		isCozy = registryEntry == ModStatusEffects.COZY;
 	}
 
