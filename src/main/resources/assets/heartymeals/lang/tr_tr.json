@@ -1,0 +1,14 @@
+{
+  "effect.heartymeals.cozy": "Rahat",
+  "effect.heartymeals.cozy.description": "Kamp Ateşinden",
+  "tag.item.heartymeals.increased_saturation": "Arttırılmış Doygunluk",
+  "heartymeals.midnightconfig.title": "Hearty Meals",
+  "heartymeals.midnightconfig.category.client": "İstemci",
+  "heartymeals.midnightconfig.campfireHealing": "Kamp Ateşi İyileştirmesi",
+  "heartymeals.midnightconfig.disableSprinting": "Koşmayı Kapat",
+  "heartymeals.midnightconfig.fasterFluidConsumption": "Hızlı Sıvı Tüketimi",
+  "heartymeals.midnightconfig.increaseHoneySaturation": "Bal Doygunluğunu Arttır",
+  "heartymeals.midnightconfig.potionBundleStacking": "İksirleri Keseye Yığınlama",
+  "heartymeals.midnightconfig.displayHealthGained": "Edinilen Sağlık Gösterilsin",
+  "heartymeals.midnightconfig.moveArmorBar": "Zırh Çubuğununun Yerini Değiştir"
+}
