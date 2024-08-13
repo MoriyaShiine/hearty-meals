@@ -115,7 +115,7 @@ public abstract class InGameHudMixin {
 
 	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0), index = 2)
 	private int heartymeals$lowerAirBar0(int value) {
-		if (getCameraPlayer().getArmor() <= 0) {
+		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() <= 0) {
 			return value + 10;
 		}
 		return value;
@@ -123,7 +123,7 @@ public abstract class InGameHudMixin {
 
 	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1), index = 2)
 	private int heartymeals$lowerAirBar1(int value) {
-		if (getCameraPlayer().getArmor() <= 0) {
+		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() <= 0) {
 			return value + 10;
 		}
 		return value;
