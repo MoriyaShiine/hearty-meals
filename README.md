@@ -12,7 +12,7 @@ The features this mod provides are:
 * Potions can be stacked in Bundles.
 * The Hunger status effect prevents you from healing using food, and damages you over time at higher levels.
 * The Saturation status effect instantly heals you based on the amplifier.
-* If Farmer's Delight is installed, the Nourishing status effect slowly heals you every 10 seconds.
+* If Farmer's Delight is installed, the Nourishment status effect slowly heals you every 10 seconds.
 * Optionally disables sprinting, but this is disabled by default.
 
 ## External Links
