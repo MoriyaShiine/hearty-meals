@@ -60,7 +60,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	public void tick() {
 		tickFoodHealing();
 		tickCampfire();
-		tickNourishing();
+		tickNourishment();
 	}
 
 	public void sync() {
@@ -169,9 +169,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		}
 	}
 
-	private void tickNourishing() {
-		if (HeartyMeals.nourshingEffect != null && obj.hasStatusEffect(HeartyMeals.nourshingEffect)) {
-			StatusEffectInstance instance = obj.getStatusEffect(HeartyMeals.nourshingEffect);
+	private void tickNourishment() {
+		if (HeartyMeals.nourishmentEffect != null && obj.hasStatusEffect(HeartyMeals.nourishmentEffect)) {
+			StatusEffectInstance instance = obj.getStatusEffect(HeartyMeals.nourishmentEffect);
 			int duration = instance.getDuration();
 			if (duration == StatusEffectInstance.INFINITE) {
 				duration = obj.age;

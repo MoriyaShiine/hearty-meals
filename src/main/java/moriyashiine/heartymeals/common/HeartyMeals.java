@@ -13,32 +13,26 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class HeartyMeals implements ModInitializer {
 	public static final String MOD_ID = "heartymeals";
 
-	public static RegistryEntry<StatusEffect> nourshingEffect = null;
+	public static RegistryEntry<StatusEffect> nourishmentEffect = null;
 
 	@Override
 	public void onInitialize() {
 		MidnightConfig.init(MOD_ID, ModConfig.class);
-		// todo farmer's delight compat
-		/*
-		ModContainer container = FabricLoader.getInstance().getModContainer("farmersdelight").orElse(null);
-		if (container != null) {
-			if (container.getMetadata().getVersion().getFriendlyString().split("-")[1].startsWith("2.")) {
-				nourshingEffect = ModEffects.NOURISHMENT.get();
-			} else {
-				nourshingEffect = EffectsRegistry.NOURISHMENT.get();
-			}
-		}
-		 */
 		ModStatusEffects.init();
 		initEvents();
 		initPayloads();
+		if (FabricLoader.getInstance().isModLoaded("farmersdelight")) {
+			nourishmentEffect = ModEffects.NOURISHMENT;
+		}
 	}
 
 	public static Identifier id(String value) {

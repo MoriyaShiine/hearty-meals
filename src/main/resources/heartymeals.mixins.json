@@ -20,7 +20,7 @@
 	"client.ClientPlayerEntityMixin",
 	"client.InGameHudAccessor",
 	"client.InGameHudMixin",
-	"integration.farmersdelight.refabricated.client.NourishmentHungerOverlayMixin"
+	"integration.farmersdelight.client.NourishmentOverlayMixin"
   ],
   "injectors": {
 	"defaultRequire": 1
