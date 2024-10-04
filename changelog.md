@@ -1,4 +1,10 @@
 ------------------------------------------------------
+Version 1.21-r3
+------------------------------------------------------
+- update tag in preparation for enchancement
+- re-add farmer's delight compat
+
+------------------------------------------------------
 Version 1.21-r2
 ------------------------------------------------------
 - fix https://github.com/MoriyaShiine/hearty-meals/issues/7
