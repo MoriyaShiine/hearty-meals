@@ -14,7 +14,7 @@ import net.minecraft.registry.tag.TagKey;
 
 import java.util.concurrent.CompletableFuture;
 
-import static net.minecraft.util.Identifier.tryParse;
+import static net.minecraft.util.Identifier.of;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	public ModItemTagProvider(FabricDataOutput output) {
@@ -25,9 +25,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 		getOrCreateTagBuilder(ModItemTags.INCREASED_SATURATION)
 				.add(Items.PUMPKIN_PIE)
-				.addOptional(tryParse("bewitchment:witchberry_pie"));
+				.addOptional(of("bewitchment", "witchberry_pie"));
 
-		getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, tryParse("enchancement:cannot_assimilate")))
+		getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, of("enchancement", "cannot_automatically_consume")))
 				.add(Items.GOLDEN_CARROT);
 	}
 }
