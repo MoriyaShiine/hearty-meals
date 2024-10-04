@@ -6,6 +6,7 @@ package moriyashiine.heartymeals.mixin.client;
 import com.google.common.collect.Ordering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.common.HeartyMeals;
@@ -15,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -29,10 +29,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 @Mixin(InGameHud.class)
@@ -53,8 +50,8 @@ public abstract class InGameHudMixin {
 	@Shadow
 	protected abstract PlayerEntity getCameraPlayer();
 
-	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/gui/hud/InGameHud$HeartType;fromPlayerState(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/client/gui/hud/InGameHud$HeartType;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void heartymeals$displayHealthGained(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, InGameHud.HeartType heartType) {
+	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getWorld()Lnet/minecraft/world/World;"))
+	private void heartymeals$displayHealthGained(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local InGameHud.HeartType heartType) {
 		RenderFoodHealingEvent.Hud.xPoses = new int[MathHelper.ceil(maxHealth / 2F)];
 		RenderFoodHealingEvent.Hud.yPoses = new int[RenderFoodHealingEvent.Hud.xPoses.length];
 		RenderFoodHealingEvent.Hud.heartType = heartType;
@@ -67,8 +64,8 @@ public abstract class InGameHudMixin {
 		RenderFoodHealingEvent.Hud.displayHealthGained(client, context, player, maxHealth);
 	}
 
-	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void heartymeals$disableAbsorptionValueSetting(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, InGameHud.HeartType heartType, boolean bl, int i, int j, int k, int l, int m, int n, int o, int p) {
+	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V", ordinal = 0))
+	private void heartymeals$disableAbsorptionValueSetting(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local(ordinal = 7) int i, @Local(ordinal = 10) int l) {
 		setValues = l < i;
 	}
 
@@ -100,8 +97,8 @@ public abstract class InGameHudMixin {
 		return HeartyMealsClient.prioritizeCozy(instance, elements, original);
 	}
 
-	@Inject(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/effect/StatusEffectInstance;getEffectType()Lnet/minecraft/registry/entry/RegistryEntry;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void heartymeals$cozyBackground(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci, Collection<?> collection, int i, int j, StatusEffectSpriteManager statusEffectSpriteManager, List<?> list, Iterator<?> var8, StatusEffectInstance statusEffectInstance, RegistryEntry<?> registryEntry) {
+	@Inject(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/effect/StatusEffectInstance;shouldShowIcon()Z"))
+	private void heartymeals$cozyBackground(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci, @Local RegistryEntry<?> registryEntry) {
 		isCozy = registryEntry == ModStatusEffects.COZY;
 	}
 

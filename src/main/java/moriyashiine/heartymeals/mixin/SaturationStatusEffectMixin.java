@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SaturationStatusEffect.class)
 public class SaturationStatusEffectMixin {
-	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V", shift = At.Shift.BEFORE))
+	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;add(IF)V"))
 	private void heartymeals$saturationEffect(LivingEntity entity, int amplifier, CallbackInfoReturnable<Boolean> cir) {
 		ModEntityComponents.FOOD_HEALING.get(entity).setFromSaturation(true);
 	}

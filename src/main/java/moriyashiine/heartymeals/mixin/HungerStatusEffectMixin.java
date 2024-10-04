@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(HungerStatusEffect.class)
 public class HungerStatusEffectMixin {
-	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V", shift = At.Shift.BEFORE))
+	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addExhaustion(F)V"))
 	private void heartymeals$hungerEffect(LivingEntity entity, int amplifier, CallbackInfoReturnable<Boolean> cir) {
 		if (!entity.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
 			amplifier++;
