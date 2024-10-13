@@ -4,6 +4,7 @@
   "tag.item.heartymeals.increased_saturation": "Increased Saturation",
   "heartymeals.midnightconfig.title": "Hearty Meals",
   "heartymeals.midnightconfig.category.client": "Client",
+  "heartymeals.midnightconfig.allowEatingWhenFull": "Allow Eating When Full",
   "heartymeals.midnightconfig.campfireHealing": "Campfire Healing",
   "heartymeals.midnightconfig.disableSprinting": "Disable Sprinting",
   "heartymeals.midnightconfig.fasterFluidConsumption": "Faster Fluid Consumption",

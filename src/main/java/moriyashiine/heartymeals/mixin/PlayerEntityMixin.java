@@ -4,6 +4,7 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.component.type.FoodComponent;
@@ -15,6 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -31,7 +33,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@ModifyExpressionValue(method = "canConsume", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;isNotFull()Z"))
 	private boolean heartymeals$treatAsHealth(boolean value) {
-		return canFoodHeal() && (MathHelper.ceil(getHealth()) < getMaxHealth()) && ModEntityComponents.FOOD_HEALING.get(this).canEat();
+		return canEat() && ModEntityComponents.FOOD_HEALING.get(this).canEat();
 	}
 
 	@Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
@@ -59,5 +61,13 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 			return builder.build();
 		}
 		return value;
+	}
+
+	@Unique
+	private boolean canEat() {
+		if (ModConfig.allowEatingWhenFull) {
+			return true;
+		}
+		return canFoodHeal() && MathHelper.ceil(getHealth()) < getMaxHealth();
 	}
 }
