@@ -22,6 +22,8 @@ import vectorwing.farmersdelight.common.registry.ModEffects;
 public class HeartyMeals implements ModInitializer {
 	public static final String MOD_ID = "heartymeals";
 
+	public static boolean farmersDelightLoaded = false;
+
 	public static RegistryEntry<StatusEffect> nourishmentEffect = null;
 
 	@Override
@@ -30,7 +32,8 @@ public class HeartyMeals implements ModInitializer {
 		ModStatusEffects.init();
 		initEvents();
 		initPayloads();
-		if (FabricLoader.getInstance().isModLoaded("farmersdelight")) {
+		farmersDelightLoaded = FabricLoader.getInstance().isModLoaded("farmersdelight");
+		if (farmersDelightLoaded) {
 			nourishmentEffect = ModEffects.NOURISHMENT;
 		}
 	}
