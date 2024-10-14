@@ -1,4 +1,10 @@
 ------------------------------------------------------
+Version 1.21-r5
+------------------------------------------------------
+- fix natural regen sync applying to all gamerules
+- cake and pie blocks now show how much health they heal
+
+------------------------------------------------------
 Version 1.21-r4
 ------------------------------------------------------
 - add allow eating when full config option
