@@ -24,8 +24,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	@Override
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 		getOrCreateTagBuilder(ModItemTags.INCREASED_SATURATION)
-				.add(Items.PUMPKIN_PIE)
-				.addOptional(of("bewitchment", "witchberry_pie"));
+				.add(Items.PUMPKIN_PIE);
 
 		getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, of("enchancement", "cannot_automatically_consume")))
 				.add(Items.GOLDEN_CARROT);

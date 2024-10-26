@@ -1,9 +1,5 @@
 {
   "values": [
-	"minecraft:pumpkin_pie",
-	{
-	  "id": "bewitchment:witchberry_pie",
-	  "required": false
-	}
+	"minecraft:pumpkin_pie"
   ]
 }

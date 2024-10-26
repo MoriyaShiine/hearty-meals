@@ -15,6 +15,7 @@ import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,9 +29,11 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -46,9 +49,6 @@ public abstract class InGameHudMixin {
 	@Shadow
 	@Final
 	private MinecraftClient client;
-
-	@Shadow
-	protected abstract PlayerEntity getCameraPlayer();
 
 	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getWorld()Lnet/minecraft/world/World;"))
 	private void heartymeals$displayHealthGained(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local InGameHud.HeartType heartType) {
@@ -102,7 +102,7 @@ public abstract class InGameHudMixin {
 		isCozy = registryEntry == ModStatusEffects.COZY;
 	}
 
-	@ModifyArg(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
+	@ModifyArg(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
 	private Identifier heartymeals$cozyBackground(Identifier value) {
 		if (isCozy) {
 			return COZY_BACKGROUND_AMBIENT;
@@ -110,17 +110,9 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0), index = 2)
-	private int heartymeals$lowerAirBar0(int value) {
-		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() <= 0) {
-			return value + 10;
-		}
-		return value;
-	}
-
-	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1), index = 2)
-	private int heartymeals$lowerAirBar1(int value) {
-		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() <= 0) {
+	@ModifyVariable(method = "getAirBubbleY", at = @At("HEAD"), ordinal = 1, argsOnly = true)
+	private int heartymeals$lowerAirBubbles(int value) {
+		if (!ModConfig.moveArmorBar) {
 			return value + 10;
 		}
 		return value;
@@ -131,9 +123,9 @@ public abstract class InGameHudMixin {
 		ci.cancel();
 	}
 
-	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
-	private static void heartymeals$moveArmorBar(DrawContext instance, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
-		original.call(instance, texture, adjustArmorX(x), adjustArmorY(instance, y), width, height);
+	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
+	private static void heartymeals$moveArmorBar(DrawContext instance, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, int width, int height, Operation<Void> original) {
+		original.call(instance, renderLayers, sprite, adjustArmorX(x), adjustArmorY(instance, y), width, height);
 	}
 
 	@Unique

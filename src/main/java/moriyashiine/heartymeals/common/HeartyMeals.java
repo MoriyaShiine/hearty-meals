@@ -26,6 +26,8 @@ public class HeartyMeals implements ModInitializer {
 
 	public static RegistryEntry<StatusEffect> nourishmentEffect = null;
 
+	public static float modifiedSaturation = -1;
+
 	@Override
 	public void onInitialize() {
 		MidnightConfig.init(MOD_ID, ModConfig.class);

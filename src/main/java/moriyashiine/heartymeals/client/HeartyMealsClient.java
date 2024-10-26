@@ -56,7 +56,7 @@ public class HeartyMealsClient implements ClientModInitializer {
 		}
 		if (removed != null) {
 			for (StatusEffectInstance effectInstance : removed) {
-				effects.add(0, effectInstance);
+				effects.addFirst(effectInstance);
 			}
 		}
 		return effects;

@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -102,13 +103,13 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 			ticksPerHeal = getTicksPerHeal(food, saturation);
 			for (Item item : Registries.ITEM) {
 				if (item.getComponents().contains(DataComponentTypes.FOOD)) {
-					obj.getItemCooldownManager().set(item, getMaximumHealTicks());
+					obj.getItemCooldownManager().set(item.getDefaultStack(), getMaximumHealTicks());
 				}
 			}
 			for (int i = 0; i < obj.getInventory().size(); i++) {
 				ItemStack stack = obj.getInventory().getStack(i);
 				if (stack.contains(DataComponentTypes.FOOD)) {
-					obj.getItemCooldownManager().set(stack.getItem(), getMaximumHealTicks());
+					obj.getItemCooldownManager().set(stack, getMaximumHealTicks());
 				}
 			}
 		}
@@ -138,7 +139,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		if (healAmount > 0) {
 			healTicks++;
 			if (healTicks % ticksPerHeal == 0) {
-				if (!obj.hasStatusEffect(StatusEffects.HUNGER) && obj.getWorld().getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
+				if (obj.getWorld() instanceof ServerWorld serverWorld && !obj.hasStatusEffect(StatusEffects.HUNGER) && serverWorld.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
 					obj.heal(1);
 				}
 				amountHealed++;

@@ -5,21 +5,23 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
 	"BundleContentsComponentMixin",
-	"DrinkableItemMixin",
+	"FoodComponentBuilderMixin",
+	"FoodComponentMixin",
 	"FoodComponentsMixin",
 	"GameRulesBooleanRuleMixin",
-	"HoneyBottleItemMixin",
 	"HungerManagerMixin",
 	"HungerStatusEffectMixin",
+	"ItemSettingsMixin",
 	"PlayerEntityMixin",
 	"SaturationStatusEffectMixin",
 	"StatusEffectUtilMixin"
   ],
   "client": [
-	"client.AbstractInventoryScreenMixin",
 	"client.ClientPlayerEntityMixin",
+	"client.DrawContextMixin",
 	"client.InGameHudAccessor",
 	"client.InGameHudMixin",
+	"client.StatusEffectsDisplayMixin",
 	"integration.farmersdelight.client.NourishmentOverlayMixin"
   ],
   "injectors": {

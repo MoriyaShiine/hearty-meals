@@ -3,7 +3,6 @@
  */
 package moriyashiine.heartymeals.client.event;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.ModConfig;
@@ -15,6 +14,7 @@ import net.minecraft.block.CakeBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -25,6 +25,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import vectorwing.farmersdelight.common.block.PieBlock;
 
@@ -36,6 +37,7 @@ public class RenderFoodHealingEvent {
 		public static Identifier fullTexture = null, halfTexture = null;
 		public static InGameHud.HeartType heartType;
 		public static int[] xPoses = null, yPoses = null;
+		public static int color = -1;
 
 		private static int renderTicks = 0;
 
@@ -43,7 +45,7 @@ public class RenderFoodHealingEvent {
 			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen) {
 				int health = MathHelper.ceil(player.getHealth());
 				if (health < maxHealth) {
-					int toHeal = 0;
+					int toHeal;
 					FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(player);
 					if (foodHealingComponent.getHealAmount() > 0) {
 						toHeal = foodHealingComponent.getHealAmount() - foodHealingComponent.getAmountHealed();
@@ -65,8 +67,7 @@ public class RenderFoodHealingEvent {
 						if (!client.isPaused()) {
 							renderTicks++;
 						}
-						RenderSystem.enableBlend();
-						context.setShaderColor(1, 1, 1, (MathHelper.sin(renderTicks / 20F) + 1) / 3F);
+						color = ColorHelper.fromFloats((MathHelper.sin(renderTicks / 20F) + 1) / 3F, 1, 1, 1);
 						for (int i = health; i < maxHealth; i++) {
 							int index = i / 2;
 							int currentHealth = i - health;
@@ -79,11 +80,14 @@ public class RenderFoodHealingEvent {
 								if (health % 2 != currentHealth % 2) {
 									currentlyHalf = true;
 								}
-								context.drawGuiTexture(currentlyHalf ? fullTexture : halfTexture, 9, 9, currentlyHalf ? 5 : 0, 0, xPoses[index] + xOffset, yPoses[index], 5, 9);
+								context.drawGuiTexture(
+										RenderLayer::getGuiTextured, currentlyHalf ? fullTexture : halfTexture,
+										9, 9,
+										currentlyHalf ? 5 : 0, 0,
+										xPoses[index] + xOffset, yPoses[index],
+										5, 9);
 							}
 						}
-						context.setShaderColor(1, 1, 1, 1);
-						RenderSystem.disableBlend();
 					} else {
 						renderTicks = 0;
 					}
@@ -92,6 +96,7 @@ public class RenderFoodHealingEvent {
 			fullTexture = halfTexture = null;
 			heartType = null;
 			xPoses = yPoses = null;
+			color = -1;
 		}
 
 		private static int getBlockHealAmount(BlockState state) {
