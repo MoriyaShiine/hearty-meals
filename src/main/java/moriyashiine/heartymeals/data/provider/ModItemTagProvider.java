@@ -7,7 +7,6 @@ import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Items;
-import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -17,8 +16,8 @@ import java.util.concurrent.CompletableFuture;
 import static net.minecraft.util.Identifier.of;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-	public ModItemTagProvider(FabricDataOutput output) {
-		super(output, CompletableFuture.supplyAsync(BuiltinRegistries::createWrapperLookup));
+	public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+		super(output, completableFuture);
 	}
 
 	@Override

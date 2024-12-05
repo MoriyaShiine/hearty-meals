@@ -15,7 +15,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 public record SyncNaturalRegenPayload(boolean value) implements CustomPayload {
 	public static final CustomPayload.Id<SyncNaturalRegenPayload> ID = new Id<>(HeartyMeals.id("sync_natural_regen"));
-	public static final PacketCodec<PacketByteBuf, SyncNaturalRegenPayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOL, SyncNaturalRegenPayload::value, SyncNaturalRegenPayload::new);
+	public static final PacketCodec<PacketByteBuf, SyncNaturalRegenPayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOLEAN, SyncNaturalRegenPayload::value, SyncNaturalRegenPayload::new);
 
 	@Override
 	public Id<? extends CustomPayload> getId() {
