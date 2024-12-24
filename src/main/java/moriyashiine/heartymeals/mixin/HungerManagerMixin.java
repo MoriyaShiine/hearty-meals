@@ -5,6 +5,7 @@ package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import moriyashiine.heartymeals.common.HeartyMeals;
+import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.entity.player.HungerManager;
@@ -65,9 +66,13 @@ public abstract class HungerManagerMixin {
 	@Inject(method = "addInternal", at = @At("HEAD"))
 	private void heartymeals$treatAsHealth(int food, float saturation, CallbackInfo ci) {
 		if (cachedPlayer != null) {
-			FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(cachedPlayer);
-			foodHealingComponent.startHealing(food, saturation);
-			foodHealingComponent.sync();
+			if (ModConfig.instantRegeneration) {
+				cachedPlayer.heal(food);
+			} else {
+				FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(cachedPlayer);
+				foodHealingComponent.startHealing(food, saturation);
+				foodHealingComponent.sync();
+			}
 		}
 	}
 }

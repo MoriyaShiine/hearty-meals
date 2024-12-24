@@ -125,7 +125,9 @@ public class RenderFoodHealingEvent {
 					float seconds = FoodHealingComponent.getMaximumHealTicks(stack) / 20F;
 					MutableText text = Text.literal(DecimalFormat.getNumberInstance().format(healAmount / 2F) + " ").formatted(Formatting.GRAY);
 					text.append(Text.literal("❤ ").formatted(Formatting.RED));
-					text.append(Text.literal("/ " + DecimalFormat.getNumberInstance().format(seconds) + "s").formatted(Formatting.GRAY));
+					if (!ModConfig.instantRegeneration) {
+						text.append(Text.literal("/ " + DecimalFormat.getNumberInstance().format(seconds) + "s").formatted(Formatting.GRAY));
+					}
 					lines.add(1, text);
 				}
 			}
