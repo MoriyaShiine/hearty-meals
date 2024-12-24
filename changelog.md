@@ -1,4 +1,10 @@
 ------------------------------------------------------
+Version 1.21.4-r2
+------------------------------------------------------
+- fix https://github.com/MoriyaShiine/hearty-meals/issues/8
+- add instant consumption and instant regeneration config options. these are disabled by default
+
+------------------------------------------------------
 Version 1.21.4-r1
 ------------------------------------------------------
 - update to 1.21.4

@@ -13,7 +13,7 @@ The features this mod provides are:
 * The Hunger status effect prevents you from healing using food, and damages you over time at higher levels.
 * The Saturation status effect instantly heals you based on the amplifier.
 * If Farmer's Delight is installed, the Nourishment status effect slowly heals you every 10 seconds.
-* Optionally disables sprinting, but this is disabled by default.
+* Optionally disables sprinting and enables instant regeneration and consumption, but these are all disabled by default.
 
 ## External Links
 Support me on Ko-fi! I release new versions of my mods early here <3
