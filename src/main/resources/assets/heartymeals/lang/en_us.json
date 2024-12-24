@@ -9,6 +9,7 @@
   "heartymeals.midnightconfig.disableSprinting": "Disable Sprinting",
   "heartymeals.midnightconfig.fasterFluidConsumption": "Faster Fluid Consumption",
   "heartymeals.midnightconfig.increaseHoneySaturation": "Increase Honey Saturation",
+  "heartymeals.midnightconfig.instantConsumption": "Instant Consumption",
   "heartymeals.midnightconfig.instantRegeneration": "Instant Regeneration",
   "heartymeals.midnightconfig.potionBundleStacking": "Potion Bundle Stacking",
   "heartymeals.midnightconfig.displayHealthGained": "Display Health Gained",

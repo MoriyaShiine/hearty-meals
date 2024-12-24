@@ -17,6 +17,8 @@ public class ModConfig extends MidnightConfig {
 	@Entry
 	public static boolean increaseHoneySaturation = true;
 	@Entry
+	public static boolean instantConsumption = false;
+	@Entry
 	public static boolean instantRegeneration = false;
 	@Entry
 	public static boolean potionBundleStacking = true;
