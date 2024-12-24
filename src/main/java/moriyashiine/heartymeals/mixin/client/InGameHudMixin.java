@@ -22,6 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -49,6 +50,10 @@ public abstract class InGameHudMixin {
 	@Shadow
 	@Final
 	private MinecraftClient client;
+
+	@Shadow
+	@Nullable
+	protected abstract PlayerEntity getCameraPlayer();
 
 	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getWorld()Lnet/minecraft/world/World;"))
 	private void heartymeals$displayHealthGained(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local InGameHud.HeartType heartType) {
@@ -112,7 +117,7 @@ public abstract class InGameHudMixin {
 
 	@ModifyVariable(method = "getAirBubbleY", at = @At("HEAD"), ordinal = 1, argsOnly = true)
 	private int heartymeals$lowerAirBubbles(int value) {
-		if (!ModConfig.moveArmorBar) {
+		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() == 0) {
 			return value + 10;
 		}
 		return value;
