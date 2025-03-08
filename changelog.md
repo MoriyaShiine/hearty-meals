@@ -1,4 +1,9 @@
 ------------------------------------------------------
+Version 1.21.4-r3
+------------------------------------------------------
+- add mirror armor bar config option to address https://github.com/MoriyaShiine/hearty-meals/issues/8 (disabled by default)
+
+------------------------------------------------------
 Version 1.21.4-r2
 ------------------------------------------------------
 - fix https://github.com/MoriyaShiine/hearty-meals/issues/8
