@@ -26,5 +26,7 @@ public class ModConfig extends MidnightConfig {
 	@Entry(category = "client")
 	public static boolean displayHealthGained = true;
 	@Entry(category = "client")
+	public static boolean mirrorArmorBar = false;
+	@Entry(category = "client")
 	public static boolean moveArmorBar = true;
 }

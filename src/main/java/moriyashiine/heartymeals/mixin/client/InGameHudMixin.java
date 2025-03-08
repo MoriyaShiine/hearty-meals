@@ -42,6 +42,9 @@ public abstract class InGameHudMixin {
 	private static final Identifier COZY_BACKGROUND_AMBIENT = HeartyMeals.id("hud/cozy_background_ambient");
 
 	@Unique
+	private static final Identifier ARMOR_HALF_MIRRORED = HeartyMeals.id("hud/armor_half_mirrored");
+
+	@Unique
 	private static boolean setValues = false, isCozy = false;
 
 	@Unique
@@ -126,6 +129,22 @@ public abstract class InGameHudMixin {
 	@Inject(method = "renderFood", at = @At("HEAD"), cancellable = true)
 	private void heartymeals$hideHungerBar(DrawContext context, PlayerEntity player, int top, int right, CallbackInfo ci) {
 		ci.cancel();
+	}
+
+	@ModifyVariable(method = "renderArmor", at = @At("STORE"), ordinal = 7)
+	private static int heartymeals$mirrorArmorBar(int value, DrawContext context, PlayerEntity player, int i, int j, int k, int x, @Local(ordinal = 6) int n) {
+		if (ModConfig.mirrorArmorBar) {
+			return x + (9 - n) * 8;
+		}
+		return value;
+	}
+
+	@ModifyArg(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
+	private static Identifier heartymeals$mirrorArmorBar(Identifier value) {
+		if (ModConfig.mirrorArmorBar) {
+			return ARMOR_HALF_MIRRORED;
+		}
+		return value;
 	}
 
 	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
