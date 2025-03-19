@@ -5,6 +5,7 @@ package moriyashiine.heartymeals.common.component.entity;
 
 import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.event.UniqueIngredientsEvent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import moriyashiine.heartymeals.common.tag.ModBlockTags;
@@ -119,9 +120,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	public static float getModifiedSaturation(ItemStack stack, float saturation) {
 		if (stack.isIn(ModItemTags.INCREASED_SATURATION)) {
-			return saturation * 2.6F;
+			saturation *= 2.6F;
 		}
-		return saturation;
+		return saturation + UniqueIngredientsEvent.getUniqueIngredients(stack.getItem()) / 2F;
 	}
 
 	public static int getTicksPerHeal(float saturation) {

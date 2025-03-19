@@ -9,6 +9,7 @@ import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.client.event.ResetValuesEvent;
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
 import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
+import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -41,6 +42,7 @@ public class HeartyMealsClient implements ClientModInitializer {
 	private void initPayloads() {
 		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPayload.ID, new ForceDisableSprintingPayload.Receiver());
 		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPayload.ID, new SyncNaturalRegenPayload.Receiver());
+		ClientPlayNetworking.registerGlobalReceiver(SyncUniqueIngredientsPayload.ID, new SyncUniqueIngredientsPayload.Receiver());
 	}
 
 	public static List<StatusEffectInstance> prioritizeCozy(Ordering<?> instance, Iterable<StatusEffectInstance> elements, Operation<List<StatusEffectInstance>> original) {

@@ -6,6 +6,7 @@ package moriyashiine.heartymeals.data.provider;
 import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
@@ -22,6 +23,16 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 	@Override
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+		getOrCreateTagBuilder(ModItemTags.FOOD_INGREDIENTS)
+				.addOptionalTag(ConventionalItemTags.FOODS)
+				.addOptionalTag(ConventionalItemTags.CROPS)
+				.addOptionalTag(ConventionalItemTags.EGGS)
+				.addOptionalTag(ConventionalItemTags.FLOWERS)
+				.addOptionalTag(ConventionalItemTags.MUSHROOMS)
+				.addOptionalTag(ConventionalItemTags.SEEDS)
+				.add(Items.SUGAR);
+		getOrCreateTagBuilder(ModItemTags.IGNORES_INGREDIENT_BONUS)
+				.addOptionalTag(ConventionalItemTags.GOLDEN_FOODS);
 		getOrCreateTagBuilder(ModItemTags.INCREASED_SATURATION)
 				.add(Items.PUMPKIN_PIE);
 
