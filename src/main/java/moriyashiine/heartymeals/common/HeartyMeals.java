@@ -8,6 +8,7 @@ import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
 import moriyashiine.heartymeals.common.event.SyncValuesEvent;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
+import moriyashiine.strawberrylib.api.SLib;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -22,7 +23,8 @@ public class HeartyMeals implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModStatusEffects.init();
+		SLib.init(MOD_ID);
+		initRegistries();
 		initEvents();
 		initPayloads();
 		farmersDelightLoaded = FabricLoader.getInstance().isModLoaded("farmersdelight");
@@ -30,6 +32,10 @@ public class HeartyMeals implements ModInitializer {
 
 	public static Identifier id(String value) {
 		return Identifier.of(MOD_ID, value);
+	}
+
+	private void initRegistries() {
+		ModStatusEffects.init();
 	}
 
 	private void initEvents() {
