@@ -3,7 +3,6 @@
  */
 package moriyashiine.heartymeals.common;
 
-import eu.midnightdust.lib.config.MidnightConfig;
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
 import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
@@ -23,7 +22,6 @@ public class HeartyMeals implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		MidnightConfig.init(MOD_ID, ModConfig.class);
 		ModStatusEffects.init();
 		initEvents();
 		initPayloads();

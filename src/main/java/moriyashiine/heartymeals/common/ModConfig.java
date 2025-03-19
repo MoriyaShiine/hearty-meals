@@ -29,4 +29,9 @@ public class ModConfig extends MidnightConfig {
 	public static boolean mirrorArmorBar = false;
 	@Entry(category = "client")
 	public static boolean moveArmorBar = true;
+
+	static {
+		// need to do this before mod init since I mixin into certain things before then
+		MidnightConfig.init(HeartyMeals.MOD_ID, ModConfig.class);
+	}
 }
