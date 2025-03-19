@@ -16,7 +16,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -138,8 +137,7 @@ public class RenderFoodHealingEvent {
 		}
 
 		private static int getMaximumHealTicks(ItemStack stack) {
-			FoodComponent foodComponent = stack.get(DataComponentTypes.FOOD);
-			return Hud.getItemHealAmount(stack) * getTicksPerHeal(foodComponent.nutrition(), getModifiedSaturation(stack, foodComponent.saturation()));
+			return Hud.getItemHealAmount(stack) * getTicksPerHeal(getModifiedSaturation(stack, stack.get(DataComponentTypes.FOOD).saturation()));
 		}
 	}
 }

@@ -102,7 +102,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 			}
 		} else if (food > 0) {
 			healAmount = food;
-			ticksPerHeal = getTicksPerHeal(food, saturation);
+			ticksPerHeal = getTicksPerHeal(saturation);
 			for (Item item : Registries.ITEM) {
 				if (item.getComponents().contains(DataComponentTypes.FOOD)) {
 					obj.getItemCooldownManager().set(item.getDefaultStack(), getMaximumHealTicks());
@@ -124,9 +124,8 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		return saturation;
 	}
 
-	public static int getTicksPerHeal(int nutrition, float saturation) {
-		float originalSaturation = saturation / nutrition / 2;
-		return (int) MathHelper.clamp(20F / originalSaturation, 0, 60);
+	public static int getTicksPerHeal(float saturation) {
+		return (int) Math.max(5, MathHelper.lerp(saturation / 20, 60, 0F));
 	}
 
 	private void tickFoodHealing() {
