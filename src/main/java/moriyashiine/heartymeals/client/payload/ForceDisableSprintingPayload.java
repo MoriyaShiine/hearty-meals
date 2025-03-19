@@ -21,8 +21,8 @@ public record ForceDisableSprintingPayload() implements CustomPayload {
 		return ID;
 	}
 
-	public static void send(ServerPlayerEntity player) {
-		ServerPlayNetworking.send(player, new ForceDisableSprintingPayload());
+	public static void send(ServerPlayerEntity receiver) {
+		ServerPlayNetworking.send(receiver, new ForceDisableSprintingPayload());
 	}
 
 	public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<ForceDisableSprintingPayload> {

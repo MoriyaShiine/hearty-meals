@@ -22,8 +22,8 @@ public record SyncNaturalRegenPayload(boolean value) implements CustomPayload {
 		return ID;
 	}
 
-	public static void send(ServerPlayerEntity player, boolean value) {
-		ServerPlayNetworking.send(player, new SyncNaturalRegenPayload(value));
+	public static void send(ServerPlayerEntity receiver, boolean value) {
+		ServerPlayNetworking.send(receiver, new SyncNaturalRegenPayload(value));
 	}
 
 	public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<SyncNaturalRegenPayload> {
