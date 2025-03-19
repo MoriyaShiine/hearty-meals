@@ -3,7 +3,6 @@
  */
 package moriyashiine.heartymeals.mixin;
 
-import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.util.StewHolder;
 import net.minecraft.component.type.ConsumableComponent;
@@ -40,7 +39,7 @@ public abstract class FoodComponentMixin implements StewHolder {
 	private void heartymeals$increasedSaturation(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo ci) {
 		float modifiedSaturation = FoodHealingComponent.getModifiedSaturation(stack, saturation());
 		if (modifiedSaturation != saturation()) {
-			HeartyMeals.modifiedSaturation = modifiedSaturation;
+			FoodHealingComponent.modifiedSaturation = modifiedSaturation;
 		}
 	}
 }

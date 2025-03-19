@@ -16,6 +16,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,6 +32,9 @@ import vectorwing.farmersdelight.common.block.PieBlock;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+import static moriyashiine.heartymeals.common.component.entity.FoodHealingComponent.getModifiedSaturation;
+import static moriyashiine.heartymeals.common.component.entity.FoodHealingComponent.getTicksPerHeal;
 
 public class RenderFoodHealingEvent {
 	public static class Hud {
@@ -122,7 +126,7 @@ public class RenderFoodHealingEvent {
 			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.contains(DataComponentTypes.FOOD)) {
 				int healAmount = Hud.getItemHealAmount(stack);
 				if (healAmount > 0) {
-					float seconds = FoodHealingComponent.getMaximumHealTicks(stack) / 20F;
+					float seconds = getMaximumHealTicks(stack) / 20F;
 					MutableText text = Text.literal(DecimalFormat.getNumberInstance().format(healAmount / 2F) + " ").formatted(Formatting.GRAY);
 					text.append(Text.literal("❤ ").formatted(Formatting.RED));
 					if (!ModConfig.instantRegeneration) {
@@ -131,6 +135,11 @@ public class RenderFoodHealingEvent {
 					lines.add(1, text);
 				}
 			}
+		}
+
+		private static int getMaximumHealTicks(ItemStack stack) {
+			FoodComponent foodComponent = stack.get(DataComponentTypes.FOOD);
+			return Hud.getItemHealAmount(stack) * getTicksPerHeal(foodComponent.nutrition(), getModifiedSaturation(stack, foodComponent.saturation()));
 		}
 	}
 }

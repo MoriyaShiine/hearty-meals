@@ -4,7 +4,6 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
@@ -55,9 +54,9 @@ public abstract class HungerManagerMixin {
 
 	@ModifyVariable(method = "addInternal", at = @At("HEAD"), argsOnly = true)
 	private float heartymeals$increasedSaturation(float value) {
-		if (HeartyMeals.modifiedSaturation != -1) {
-			float saturation = HeartyMeals.modifiedSaturation;
-			HeartyMeals.modifiedSaturation = -1;
+		if (FoodHealingComponent.modifiedSaturation != -1) {
+			float saturation = FoodHealingComponent.modifiedSaturation;
+			FoodHealingComponent.modifiedSaturation = -1;
 			return saturation;
 		}
 		return value;

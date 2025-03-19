@@ -14,19 +14,12 @@ import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class HeartyMeals implements ModInitializer {
 	public static final String MOD_ID = "heartymeals";
 
 	public static boolean farmersDelightLoaded = false;
-
-	public static RegistryEntry<StatusEffect> nourishmentEffect = null;
-
-	public static float modifiedSaturation = -1;
 
 	@Override
 	public void onInitialize() {
@@ -35,9 +28,6 @@ public class HeartyMeals implements ModInitializer {
 		initEvents();
 		initPayloads();
 		farmersDelightLoaded = FabricLoader.getInstance().isModLoaded("farmersdelight");
-		if (farmersDelightLoaded) {
-			nourishmentEffect = ModEffects.NOURISHMENT;
-		}
 	}
 
 	public static Identifier id(String value) {

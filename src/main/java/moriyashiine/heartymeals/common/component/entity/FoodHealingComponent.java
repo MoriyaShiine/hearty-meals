@@ -11,7 +11,6 @@ import moriyashiine.heartymeals.common.tag.ModBlockTags;
 import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,8 +26,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
+import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
+	public static float modifiedSaturation = -1;
+
 	private final PlayerEntity obj;
 	private boolean fromSaturation = false;
 	private int healAmount = 0, ticksPerHeal = 0;
@@ -115,11 +117,6 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		}
 	}
 
-	public static int getMaximumHealTicks(ItemStack stack) {
-		FoodComponent foodComponent = stack.get(DataComponentTypes.FOOD);
-		return foodComponent.nutrition() * getTicksPerHeal(foodComponent.nutrition(), getModifiedSaturation(stack, foodComponent.saturation()));
-	}
-
 	public static float getModifiedSaturation(ItemStack stack, float saturation) {
 		if (stack.isIn(ModItemTags.INCREASED_SATURATION)) {
 			return saturation * 2.6F;
@@ -127,12 +124,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		return saturation;
 	}
 
-	public static float getOriginalSaturation(float saturation, float nutrition) {
-		return saturation / nutrition / 2;
-	}
-
-	private static int getTicksPerHeal(int nutrition, float saturation) {
-		return (int) MathHelper.clamp(20F / getOriginalSaturation(saturation, nutrition), 0, 60);
+	public static int getTicksPerHeal(int nutrition, float saturation) {
+		float originalSaturation = saturation / nutrition / 2;
+		return (int) MathHelper.clamp(20F / originalSaturation, 0, 60);
 	}
 
 	private void tickFoodHealing() {
@@ -171,8 +165,8 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	private void tickNourishment() {
-		if (HeartyMeals.nourishmentEffect != null && obj.hasStatusEffect(HeartyMeals.nourishmentEffect)) {
-			StatusEffectInstance instance = obj.getStatusEffect(HeartyMeals.nourishmentEffect);
+		if (HeartyMeals.farmersDelightLoaded && obj.hasStatusEffect(ModEffects.NOURISHMENT)) {
+			StatusEffectInstance instance = obj.getStatusEffect(ModEffects.NOURISHMENT);
 			int duration = instance.getDuration();
 			if (duration == StatusEffectInstance.INFINITE) {
 				duration = obj.age;
