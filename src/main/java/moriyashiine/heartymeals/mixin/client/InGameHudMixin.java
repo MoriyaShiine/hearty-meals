@@ -7,6 +7,7 @@ import com.google.common.collect.Ordering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import moriyashiine.heartymeals.api.event.DisableHudRepositioningEvent;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.common.HeartyMeals;
@@ -45,7 +46,7 @@ public abstract class InGameHudMixin {
 	private static final Identifier ARMOR_HALF_MIRRORED = HeartyMeals.id("hud/armor_half_mirrored");
 
 	@Unique
-	private static boolean setValues = false, isCozy = false;
+	private static boolean setValues = false, isCozy = false, disableHudRepositioning = false;
 
 	@Unique
 	private static int heartIndex = -1;
@@ -57,6 +58,11 @@ public abstract class InGameHudMixin {
 	@Shadow
 	@Nullable
 	protected abstract PlayerEntity getCameraPlayer();
+
+	@Inject(method = "render", at = @At("HEAD"))
+	private void heartymeals$disableHudRepositioning(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+		disableHudRepositioning = DisableHudRepositioningEvent.EVENT.invoker().shouldDisableRepositioning(getCameraPlayer());
+	}
 
 	@Inject(method = "renderHealthBar", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getWorld()Lnet/minecraft/world/World;"))
 	private void heartymeals$displayHealthGained(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local InGameHud.HeartType heartType) {
@@ -120,8 +126,10 @@ public abstract class InGameHudMixin {
 
 	@ModifyVariable(method = "getAirBubbleY", at = @At("HEAD"), ordinal = 1, argsOnly = true)
 	private int heartymeals$lowerAirBubbles(int value) {
-		if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() == 0) {
-			return value + 10;
+		if (!disableHudRepositioning) {
+			if (!ModConfig.moveArmorBar || getCameraPlayer().getArmor() == 0) {
+				return value + 10;
+			}
 		}
 		return value;
 	}
@@ -154,19 +162,19 @@ public abstract class InGameHudMixin {
 
 	@Unique
 	private static int adjustArmorX(int value) {
-		if (ModConfig.moveArmorBar) {
+		if (!disableHudRepositioning && ModConfig.moveArmorBar) {
 			return value + 101;
 		}
 		return value;
 	}
 
 	@Unique
-	private static int adjustArmorY(DrawContext drawContext, int value) {
-		if (ModConfig.moveArmorBar) {
+	private static int adjustArmorY(DrawContext context, int value) {
+		if (!disableHudRepositioning && ModConfig.moveArmorBar) {
 			if (!HeartyMealsClient.leaveMyBarsAloneLoaded && ((InGameHudAccessor) MinecraftClient.getInstance().inGameHud).heartymeals$getRiddenEntity() != null) {
 				return Integer.MIN_VALUE;
 			}
-			return drawContext.getScaledWindowHeight() - 39;
+			return context.getScaledWindowHeight() - 39;
 		}
 		return value;
 	}
