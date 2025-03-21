@@ -157,7 +157,7 @@ public abstract class InGameHudMixin {
 
 	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
 	private static void heartymeals$moveArmorBar(DrawContext instance, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, int width, int height, Operation<Void> original) {
-		original.call(instance, renderLayers, sprite, adjustArmorX(x), adjustArmorY(instance, y), width, height);
+		original.call(instance, renderLayers, sprite, adjustArmorX(x), adjustArmorY(y), width, height);
 	}
 
 	@Unique
@@ -169,12 +169,12 @@ public abstract class InGameHudMixin {
 	}
 
 	@Unique
-	private static int adjustArmorY(DrawContext context, int value) {
+	private static int adjustArmorY(int value) {
 		if (!disableHudRepositioning && ModConfig.moveArmorBar) {
-			if (!HeartyMealsClient.leaveMyBarsAloneLoaded && ((InGameHudAccessor) MinecraftClient.getInstance().inGameHud).heartymeals$getRiddenEntity() != null) {
+			if (!HeartyMealsClient.leaveMyBarsAloneLoaded && MinecraftClient.getInstance().inGameHud.getRiddenEntity() != null) {
 				return Integer.MIN_VALUE;
 			}
-			return context.getScaledWindowHeight() - 39;
+			return value + 10;
 		}
 		return value;
 	}

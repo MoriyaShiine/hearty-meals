@@ -20,7 +20,6 @@
   "client": [
 	"client.ClientPlayerEntityMixin",
 	"client.DrawContextMixin",
-	"client.InGameHudAccessor",
 	"client.InGameHudMixin",
 	"client.StatusEffectsDisplayMixin",
 	"integration.farmersdelight.client.NourishmentOverlayMixin"

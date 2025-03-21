@@ -1,4 +1,5 @@
 accessWidener v2 named
 accessible class net/minecraft/entity/effect/HungerStatusEffect
 accessible class net/minecraft/entity/effect/SaturationStatusEffect
+accessible method net/minecraft/client/gui/hud/InGameHud getRiddenEntity ()Lnet/minecraft/entity/LivingEntity;
 accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
