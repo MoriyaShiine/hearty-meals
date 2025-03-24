@@ -11,6 +11,8 @@ import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import moriyashiine.heartymeals.common.tag.ModBlockTags;
 import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -25,9 +27,12 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 import vectorwing.farmersdelight.common.registry.ModEffects;
+
+import java.util.Optional;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
 	public static float modifiedSaturation = -1;
@@ -147,13 +152,11 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	private void tickCampfire() {
 		if (obj.age % 20 == 0) {
 			if (ModConfig.campfireHealing) {
-				if (BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> {
-					BlockState state = obj.getWorld().getBlockState(foundPos);
-					if (state.isIn(ModBlockTags.COZY_SOURCES)) {
-						return !state.contains(Properties.LIT) || state.get(Properties.LIT);
-					}
-					return false;
-				}).isPresent()) {
+				Optional<BlockPos> closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> isCozySource(obj.getWorld(), foundPos));
+				if (closestCampfire.isEmpty()) {
+					closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 15, 15, foundPos -> isCozySource(obj.getWorld(), foundPos) && ((CampfireBlock) Blocks.CAMPFIRE).isSignalFireBaseBlock(obj.getWorld().getBlockState(foundPos.down())));
+				}
+				if (closestCampfire.isPresent()) {
 					obj.addStatusEffect(new StatusEffectInstance(ModStatusEffects.COZY, StatusEffectInstance.INFINITE, 0, true, false, true));
 				} else {
 					obj.removeStatusEffect(ModStatusEffects.COZY);
@@ -175,5 +178,13 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 				obj.heal(instance.getAmplifier() + 1);
 			}
 		}
+	}
+
+	private static boolean isCozySource(World world, BlockPos pos) {
+		BlockState state = world.getBlockState(pos);
+		if (state.isIn(ModBlockTags.COZY_SOURCES)) {
+			return !state.contains(Properties.LIT) || state.get(Properties.LIT);
+		}
+		return false;
 	}
 }
