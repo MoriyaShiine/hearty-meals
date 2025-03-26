@@ -1,4 +1,15 @@
 ------------------------------------------------------
+Version 1.21.5-r1
+------------------------------------------------------
+- update to 1.21.5
+- rebalance food healing
+- - calculations for saturation have been adjusted
+- - food now has decreased healing time based on how many unique ingredients it has
+- campfires now give cozy from farther away if they have a hay bale beneath
+- bed healing now activates if you wake up as it becomes day
+- fix some config options always being true regardless of value
+
+------------------------------------------------------
 Version 1.21.4-r3
 ------------------------------------------------------
 - add mirror armor bar config option to address https://github.com/MoriyaShiine/hearty-meals/issues/8 (disabled by default)
