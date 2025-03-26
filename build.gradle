@@ -33,10 +33,13 @@ fabricApi {
 }
 
 repositories {
-    mavenLocal() // todo use actual repo when strawberrylib is real
     chenille.repositories.ladysnake()
     chenille.repositories.terraformers()
     chenille.repositories.modrinth()
+    maven {
+        name "datasync"
+        url "https://maven.uuid.gg/releases"
+    }
 }
 
 dependencies {
@@ -44,16 +47,16 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modApi "org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
-    modApi "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}"
-    modIncludeApi "maven.modrinth:midnightlib:${midnightlib_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}"
+    modIncludeImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "moriyashiine:strawberrylib-private:${strawberrylib_version}"
+    modImplementation "moriyashiine:strawberrylib:${strawberrylib_version}"
 
     modCompileOnly "maven.modrinth:farmers-delight-refabricated:${farmers_delight_refabricated_version}"
 
-    modRuntimeOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+    modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {

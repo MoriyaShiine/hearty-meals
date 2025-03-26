@@ -49,11 +49,11 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	@Override
 	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-		fromSaturation = tag.getBoolean("FromSaturation");
-		healAmount = tag.getInt("HealAmount");
-		ticksPerHeal = tag.getInt("TicksPerHeal");
-		healTicks = tag.getInt("HealTicks");
-		amountHealed = tag.getInt("AmountHealed");
+		fromSaturation = tag.getBoolean("FromSaturation", false);
+		healAmount = tag.getInt("HealAmount", 0);
+		ticksPerHeal = tag.getInt("TicksPerHeal", 0);
+		healTicks = tag.getInt("HealTicks", 0);
+		amountHealed = tag.getInt("AmountHealed", 0);
 	}
 
 	@Override
