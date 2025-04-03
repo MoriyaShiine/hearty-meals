@@ -12,6 +12,7 @@ import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
 import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -35,6 +36,7 @@ public class HeartyMealsClient implements ClientModInitializer {
 	}
 
 	private void initEvents() {
+		ClientTickEvents.END_WORLD_TICK.register(new RenderFoodHealingEvent.Tick());
 		ClientPlayConnectionEvents.DISCONNECT.register(new ResetValuesEvent());
 		ItemTooltipCallback.EVENT.register(new RenderFoodHealingEvent.Tooltip());
 	}
