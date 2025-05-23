@@ -4,11 +4,15 @@
   "tag.item.heartymeals.increased_saturation": "Arttırılmış Doygunluk",
   "heartymeals.midnightconfig.title": "Hearty Meals",
   "heartymeals.midnightconfig.category.client": "İstemci",
+  "heartymeals.midnightconfig.allowEatingWhenFull": "Tokken Yemeye İzin Ver",
   "heartymeals.midnightconfig.campfireHealing": "Kamp Ateşi İyileştirmesi",
   "heartymeals.midnightconfig.disableSprinting": "Koşmayı Kapat",
-  "heartymeals.midnightconfig.fasterFluidConsumption": "Hızlı Sıvı Tüketimi",
+  "heartymeals.midnightconfig.fasterFluidConsumption": "Hızlı Sıvı Tüketimi", 
   "heartymeals.midnightconfig.increaseHoneySaturation": "Bal Doygunluğunu Arttır",
+  "heartymeals.midnightconfig.instantConsumption": "Anında Tüketim",
+  "heartymeals.midnightconfig.instantRegeneration": "Anında Yenilenme",
   "heartymeals.midnightconfig.potionBundleStacking": "İksirleri Keseye Yığınlama",
   "heartymeals.midnightconfig.displayHealthGained": "Edinilen Sağlık Gösterilsin",
+  "heartymeals.midnightconfig.mirrorArmorBar": "Zırh Çubuğunu Aynala",
   "heartymeals.midnightconfig.moveArmorBar": "Zırh Çubuğununun Yerini Değiştir"
 }
