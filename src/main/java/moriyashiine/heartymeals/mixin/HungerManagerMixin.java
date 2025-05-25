@@ -9,6 +9,7 @@ import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -65,6 +66,7 @@ public abstract class HungerManagerMixin {
 	@Inject(method = "addInternal", at = @At("HEAD"))
 	private void heartymeals$treatAsHealth(int food, float saturation, CallbackInfo ci) {
 		if (cachedPlayer != null) {
+			food = MathHelper.floor(food * ModConfig.healthGainMultiplier);
 			if (ModConfig.instantRegeneration) {
 				cachedPlayer.heal(food);
 			} else {

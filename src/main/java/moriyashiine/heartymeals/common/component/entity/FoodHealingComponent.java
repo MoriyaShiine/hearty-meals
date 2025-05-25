@@ -131,7 +131,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	public static int getTicksPerHeal(float saturation) {
-		return (int) Math.max(5, MathHelper.lerp(saturation / 20, 60, 0F));
+		return MathHelper.floor((int) Math.max(5, MathHelper.lerp(saturation / 20, 60, 0F)) * ModConfig.regenerationTimeMultiplier);
 	}
 
 	private void tickFoodHealing() {

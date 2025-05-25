@@ -12,6 +12,8 @@
   "heartymeals.midnightconfig.instantConsumption": "Instant Consumption",
   "heartymeals.midnightconfig.instantRegeneration": "Instant Regeneration",
   "heartymeals.midnightconfig.potionBundleStacking": "Potion Bundle Stacking",
+  "heartymeals.midnightconfig.healthGainMultiplier": "Health Gain Multiplier",
+  "heartymeals.midnightconfig.regenerationTimeMultiplier": "Regeneration Time Multiplier",
   "heartymeals.midnightconfig.displayHealthGained": "Display Health Gained",
   "heartymeals.midnightconfig.mirrorArmorBar": "Mirror Armor Bar",
   "heartymeals.midnightconfig.moveArmorBar": "Move Armor Bar"

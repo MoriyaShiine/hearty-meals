@@ -89,8 +89,7 @@ public class RenderFoodHealingEvent {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (getHealAmount(client, client.player) == 0) {
 				renderTicks = (int) -Math.TAU;
-			}
-			else {
+			} else {
 				renderTicks++;
 			}
 		}
@@ -142,7 +141,7 @@ public class RenderFoodHealingEvent {
 
 	private static int getBlockHealAmount(BlockState state) {
 		if (state.getBlock() instanceof CakeBlock) {
-			return 2;
+			return MathHelper.floor(2 * ModConfig.healthGainMultiplier);
 		} else if (HeartyMeals.farmersDelightLoaded && state.getBlock() instanceof PieBlock pieBlock) {
 			return getItemHealAmount(pieBlock.getPieSliceItem());
 		}
@@ -151,7 +150,7 @@ public class RenderFoodHealingEvent {
 
 	private static int getItemHealAmount(ItemStack stack) {
 		if (stack.contains(DataComponentTypes.FOOD)) {
-			return stack.get(DataComponentTypes.FOOD).nutrition();
+			return MathHelper.floor(stack.get(DataComponentTypes.FOOD).nutrition() * ModConfig.healthGainMultiplier);
 		}
 		return 0;
 	}

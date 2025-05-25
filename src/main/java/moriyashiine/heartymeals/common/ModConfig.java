@@ -23,6 +23,11 @@ public class ModConfig extends MidnightConfig {
 	@Entry
 	public static boolean potionBundleStacking = true;
 
+	@Entry(min = 0)
+	public static float healthGainMultiplier = 1;
+	@Entry(min = 1)
+	public static float regenerationTimeMultiplier = 1;
+
 	@Entry(category = "client")
 	public static boolean displayHealthGained = true;
 	@Entry(category = "client")
