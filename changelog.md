@@ -1,4 +1,11 @@
 ------------------------------------------------------
+Version 1.21.5-r3
+------------------------------------------------------
+- add health gain multiplier and regeneration time multiplier configs
+  - fixes https://github.com/MoriyaShiine/hearty-meals/issues/10
+- merge https://github.com/MoriyaShiine/hearty-meals/pull/11
+
+------------------------------------------------------
 Version 1.21.5-r2
 ------------------------------------------------------
 - health gain transparency is no longer dependent on frame rate
