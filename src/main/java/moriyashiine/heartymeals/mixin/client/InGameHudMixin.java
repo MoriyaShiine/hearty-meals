@@ -7,6 +7,7 @@ import com.google.common.collect.Ordering;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import moriyashiine.heartymeals.api.event.DisableHudRepositioningEvent;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
@@ -16,7 +17,6 @@ import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +35,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
@@ -116,7 +115,7 @@ public abstract class InGameHudMixin {
 		isCozy = registryEntry == ModStatusEffects.COZY;
 	}
 
-	@ModifyArg(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
+	@ModifyArg(method = "renderStatusEffectOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"))
 	private Identifier heartymeals$cozyBackground(Identifier value) {
 		if (isCozy) {
 			return COZY_BACKGROUND_AMBIENT;
@@ -147,7 +146,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
+	@ModifyArg(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
 	private static Identifier heartymeals$mirrorArmorBar(Identifier value) {
 		if (ModConfig.mirrorArmorBar) {
 			return ARMOR_HALF_MIRRORED;
@@ -155,9 +154,9 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
-	private static void heartymeals$moveArmorBar(DrawContext instance, Function<Identifier, RenderLayer> renderLayers, Identifier sprite, int x, int y, int width, int height, Operation<Void> original) {
-		original.call(instance, renderLayers, sprite, adjustArmorX(x), adjustArmorY(y), width, height);
+	@WrapOperation(method = "renderArmor", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"))
+	private static void heartymeals$moveArmorBar(DrawContext instance, RenderPipeline pipeline, Identifier sprite, int x, int y, int width, int height, Operation<Void> original) {
+		original.call(instance, pipeline, sprite, adjustArmorX(x), adjustArmorY(y), width, height);
 	}
 
 	@Unique

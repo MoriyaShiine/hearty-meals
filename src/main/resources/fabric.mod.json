@@ -36,7 +36,7 @@
   "accessWidener": "heartymeals.accesswidener",
   "depends": {
 	"fabricloader": "*",
-	"minecraft": "~1.21.5",
+	"minecraft": "~1.21.6",
 	"java": ">=21",
 	"fabric-api": "*",
 	"strawberrylib": "*"

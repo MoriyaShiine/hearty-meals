@@ -19,11 +19,11 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
@@ -48,21 +48,21 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-		fromSaturation = tag.getBoolean("FromSaturation", false);
-		healAmount = tag.getInt("HealAmount", 0);
-		ticksPerHeal = tag.getInt("TicksPerHeal", 0);
-		healTicks = tag.getInt("HealTicks", 0);
-		amountHealed = tag.getInt("AmountHealed", 0);
+	public void readData(ReadView readView) {
+		fromSaturation = readView.getBoolean("FromSaturation", false);
+		healAmount = readView.getInt("HealAmount", 0);
+		ticksPerHeal = readView.getInt("TicksPerHeal", 0);
+		healTicks = readView.getInt("HealTicks", 0);
+		amountHealed = readView.getInt("AmountHealed", 0);
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-		tag.putBoolean("FromSaturation", fromSaturation);
-		tag.putInt("HealAmount", healAmount);
-		tag.putInt("TicksPerHeal", ticksPerHeal);
-		tag.putInt("HealTicks", healTicks);
-		tag.putInt("AmountHealed", amountHealed);
+	public void writeData(WriteView writeView) {
+		writeView.putBoolean("FromSaturation", fromSaturation);
+		writeView.putInt("HealAmount", healAmount);
+		writeView.putInt("TicksPerHeal", ticksPerHeal);
+		writeView.putInt("HealTicks", healTicks);
+		writeView.putInt("AmountHealed", amountHealed);
 	}
 
 	@Override

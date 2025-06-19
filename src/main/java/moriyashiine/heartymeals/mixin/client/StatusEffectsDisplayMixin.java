@@ -41,7 +41,7 @@ public class StatusEffectsDisplayMixin {
 		return statusEffectInstance;
 	}
 
-	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
+	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
 	private Identifier heartymeals$cozyBackgroundLarge(Identifier value) {
 		if (isCozy) {
 			return COZY_BACKGROUND_LARGE;
@@ -49,7 +49,7 @@ public class StatusEffectsDisplayMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
+	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
 	private Identifier heartymeals$cozyBackgroundSmall(Identifier value) {
 		if (isCozy) {
 			return COZY_BACKGROUND_SMALL;

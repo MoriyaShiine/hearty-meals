@@ -13,9 +13,9 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -64,7 +64,7 @@ public class RenderFoodHealingEvent {
 									currentlyHalf = true;
 								}
 								context.drawGuiTexture(
-										RenderLayer::getGuiTextured, currentlyHalf ? fullTexture : halfTexture,
+										RenderPipelines.GUI_TEXTURED, currentlyHalf ? fullTexture : halfTexture,
 										9, 9,
 										currentlyHalf ? 5 : 0, 0,
 										xPoses[index] + xOffset, yPoses[index],

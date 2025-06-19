@@ -23,7 +23,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 	@Override
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-		getOrCreateTagBuilder(ModItemTags.FOOD_INGREDIENTS)
+		valueLookupBuilder(ModItemTags.FOOD_INGREDIENTS)
 				.addOptionalTag(ConventionalItemTags.FOODS)
 				.addOptionalTag(ConventionalItemTags.CROPS)
 				.addOptionalTag(ConventionalItemTags.EGGS)
@@ -31,12 +31,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				.addOptionalTag(ConventionalItemTags.MUSHROOMS)
 				.addOptionalTag(ConventionalItemTags.SEEDS)
 				.add(Items.SUGAR);
-		getOrCreateTagBuilder(ModItemTags.IGNORES_INGREDIENT_BONUS)
+		valueLookupBuilder(ModItemTags.IGNORES_INGREDIENT_BONUS)
 				.addOptionalTag(ConventionalItemTags.GOLDEN_FOODS);
-		getOrCreateTagBuilder(ModItemTags.INCREASED_SATURATION)
+		valueLookupBuilder(ModItemTags.INCREASED_SATURATION)
 				.add(Items.PUMPKIN_PIE);
 
-		getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, of("enchancement", "cannot_automatically_consume")))
+		valueLookupBuilder(TagKey.of(RegistryKeys.ITEM, of("enchancement", "cannot_automatically_consume")))
 				.add(Items.GOLDEN_CARROT);
 	}
 }
