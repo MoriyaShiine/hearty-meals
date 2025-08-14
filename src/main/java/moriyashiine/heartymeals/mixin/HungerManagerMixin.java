@@ -19,10 +19,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(HungerManager.class)
+@Mixin(value = HungerManager.class, priority = 1001)
 public abstract class HungerManagerMixin {
 	@Unique
 	private ServerPlayerEntity cachedPlayer = null;
+
+	@Shadow
+	public abstract boolean isNotFull();
 
 	@Shadow
 	public abstract void setFoodLevel(int foodLevel);
@@ -36,9 +39,11 @@ public abstract class HungerManagerMixin {
 	@Inject(method = "update", at = @At("HEAD"))
 	private void heartymeals$forceFullHunger(ServerPlayerEntity player, CallbackInfo ci) {
 		cachedPlayer = player;
-		setFoodLevel(20);
-		setSaturationLevel(20);
-		exhaustion = 0;
+		if (isNotFull()) {
+			setFoodLevel(20);
+			setSaturationLevel(20);
+			exhaustion = 0;
+		}
 	}
 
 	@ModifyExpressionValue(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;canFoodHeal()Z"))
