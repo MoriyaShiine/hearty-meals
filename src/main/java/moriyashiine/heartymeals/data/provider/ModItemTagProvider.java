@@ -24,15 +24,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	@Override
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 		valueLookupBuilder(ModItemTags.FOOD_INGREDIENTS)
-				.addOptionalTag(ConventionalItemTags.FOODS)
-				.addOptionalTag(ConventionalItemTags.CROPS)
-				.addOptionalTag(ConventionalItemTags.EGGS)
-				.addOptionalTag(ConventionalItemTags.FLOWERS)
-				.addOptionalTag(ConventionalItemTags.MUSHROOMS)
-				.addOptionalTag(ConventionalItemTags.SEEDS)
+				.forceAddTag(ConventionalItemTags.FOODS)
+				.forceAddTag(ConventionalItemTags.CROPS)
+				.forceAddTag(ConventionalItemTags.EGGS)
+				.forceAddTag(ConventionalItemTags.FLOWERS)
+				.forceAddTag(ConventionalItemTags.MUSHROOMS)
+				.forceAddTag(ConventionalItemTags.SEEDS)
 				.add(Items.SUGAR);
 		valueLookupBuilder(ModItemTags.IGNORES_INGREDIENT_BONUS)
-				.addOptionalTag(ConventionalItemTags.GOLDEN_FOODS);
+				.forceAddTag(ConventionalItemTags.GOLDEN_FOODS);
 		valueLookupBuilder(ModItemTags.INCREASED_SATURATION)
 				.add(Items.PUMPKIN_PIE);
 

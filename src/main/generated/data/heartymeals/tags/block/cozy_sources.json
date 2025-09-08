@@ -1,8 +1,5 @@
 {
   "values": [
-	{
-	  "id": "#minecraft:campfires",
-	  "required": false
-	}
+	"#minecraft:campfires"
   ]
 }

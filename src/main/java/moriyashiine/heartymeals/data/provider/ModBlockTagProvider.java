@@ -19,6 +19,6 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 	@Override
 	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 		valueLookupBuilder(ModBlockTags.COZY_SOURCES)
-				.addOptionalTag(BlockTags.CAMPFIRES);
+				.forceAddTag(BlockTags.CAMPFIRES);
 	}
 }

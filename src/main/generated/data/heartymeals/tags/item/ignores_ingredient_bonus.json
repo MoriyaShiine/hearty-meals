@@ -1,8 +1,5 @@
 {
   "values": [
-	{
-	  "id": "#c:foods/golden",
-	  "required": false
-	}
+	"#c:foods/golden"
   ]
 }
