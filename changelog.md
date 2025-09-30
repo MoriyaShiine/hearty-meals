@@ -1,4 +1,9 @@
 ------------------------------------------------------
+Version 1.21.9-r1
+------------------------------------------------------
+- update to 1.21.9
+
+------------------------------------------------------
 Version 1.21.6-r2
 ------------------------------------------------------
 - slightly delay resetting food level to give other mods a chance to run hunger logic before hearty meals does
