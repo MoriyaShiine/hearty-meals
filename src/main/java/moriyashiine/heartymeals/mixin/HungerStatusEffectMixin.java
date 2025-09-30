@@ -28,7 +28,7 @@ public class HungerStatusEffectMixin {
 				duration = entity.age;
 			}
 			if (duration % Math.max(1, 40 / amplifier) == 0) {
-				if (entity.getHealth() > 1 || entity.getWorld().getDifficulty() == Difficulty.HARD) {
+				if (entity.getHealth() > 1 || entity.getEntityWorld().getDifficulty() == Difficulty.HARD) {
 					entity.damage(world, entity.getDamageSources().starve(), 1);
 				}
 			}

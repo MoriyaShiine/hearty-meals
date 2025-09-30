@@ -11,7 +11,8 @@ base {
 }
 
 chenille {
-    customLicense = rootProject.file("LICENSE")
+    // todo uncomment this when chenille updates
+//    customLicense = rootProject.file("LICENSE")
     github = new URL("https://github.com/MoriyaShiine/hearty-meals")
     javaVersion = 21
     configurePublishing {
@@ -56,7 +57,7 @@ dependencies {
 
     modCompileOnly "maven.modrinth:farmers-delight-refabricated:${farmers_delight_refabricated_version}"
 
-    modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
+//    modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {

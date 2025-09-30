@@ -11,8 +11,8 @@ import net.minecraft.util.math.BlockPos;
 public class BedHealingEvent implements EntitySleepEvents.StopSleeping {
 	@Override
 	public void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
-		if (!entity.getWorld().isClient && entity.hasStatusEffect(ModStatusEffects.COZY)) {
-			long time = entity.getWorld().getTimeOfDay() % 24000;
+		if (!entity.getEntityWorld().isClient() && entity.hasStatusEffect(ModStatusEffects.COZY)) {
+			long time = entity.getEntityWorld().getTimeOfDay() % 24000;
 			if (time == 0 || time == 23461) {
 				entity.heal(Integer.MAX_VALUE);
 			}

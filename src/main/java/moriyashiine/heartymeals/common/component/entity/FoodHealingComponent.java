@@ -138,7 +138,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		if (healAmount > 0) {
 			healTicks++;
 			if (healTicks % ticksPerHeal == 0) {
-				if (obj.getWorld() instanceof ServerWorld serverWorld && !obj.hasStatusEffect(StatusEffects.HUNGER) && serverWorld.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
+				if (obj.getEntityWorld() instanceof ServerWorld world && !obj.hasStatusEffect(StatusEffects.HUNGER) && world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
 					obj.heal(1);
 				}
 				amountHealed++;
@@ -152,9 +152,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	private void tickCampfire() {
 		if (obj.age % 20 == 0) {
 			if (ModConfig.campfireHealing) {
-				Optional<BlockPos> closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> isCozySource(obj.getWorld(), foundPos));
+				Optional<BlockPos> closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 5, 5, foundPos -> isCozySource(obj.getEntityWorld(), foundPos));
 				if (closestCampfire.isEmpty()) {
-					closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 15, 15, foundPos -> isCozySource(obj.getWorld(), foundPos) && ((CampfireBlock) Blocks.CAMPFIRE).isSignalFireBaseBlock(obj.getWorld().getBlockState(foundPos.down())));
+					closestCampfire = BlockPos.findClosest(obj.getBlockPos(), 15, 15, foundPos -> isCozySource(obj.getEntityWorld(), foundPos) && ((CampfireBlock) Blocks.CAMPFIRE).isSignalFireBaseBlock(obj.getEntityWorld().getBlockState(foundPos.down())));
 				}
 				if (closestCampfire.isPresent()) {
 					obj.addStatusEffect(new StatusEffectInstance(ModStatusEffects.COZY, StatusEffectInstance.INFINITE, 0, true, false, true));
