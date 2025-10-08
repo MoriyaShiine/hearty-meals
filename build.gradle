@@ -57,7 +57,7 @@ dependencies {
 
     modCompileOnly "maven.modrinth:farmers-delight-refabricated:${farmers_delight_refabricated_version}"
 
-//    modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
+    modLocalRuntime "com.terraformersmc:modmenu:${mod_menu_version}"
 }
 
 processResources {
