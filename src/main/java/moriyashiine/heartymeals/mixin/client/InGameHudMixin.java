@@ -138,6 +138,14 @@ public abstract class InGameHudMixin {
 		ci.cancel();
 	}
 
+	@ModifyVariable(method = "renderArmor", at = @At("HEAD"), ordinal = 2, argsOnly = true)
+	private static int heartymeals$mirrorArmorBar(int healthBarLines) {
+		if (!disableHudRepositioning && ModConfig.moveArmorBar) {
+			return 0;
+		}
+		return healthBarLines;
+	}
+
 	@ModifyVariable(method = "renderArmor", at = @At("STORE"), ordinal = 7)
 	private static int heartymeals$mirrorArmorBar(int value, DrawContext context, PlayerEntity player, int i, int j, int k, int x, @Local(ordinal = 6) int n) {
 		if (ModConfig.mirrorArmorBar) {
