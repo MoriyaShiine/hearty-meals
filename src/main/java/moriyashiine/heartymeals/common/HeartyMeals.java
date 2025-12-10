@@ -4,7 +4,7 @@
 package moriyashiine.heartymeals.common;
 
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
-import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
+import moriyashiine.heartymeals.client.payload.SyncNaturalHealthRegenerationPayload;
 import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
 import moriyashiine.heartymeals.common.event.SyncValuesEvent;
@@ -51,7 +51,7 @@ public class HeartyMeals implements ModInitializer {
 
 	private void initPayloads() {
 		PayloadTypeRegistry.playS2C().register(ForceDisableSprintingPayload.ID, ForceDisableSprintingPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(SyncNaturalRegenPayload.ID, SyncNaturalRegenPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(SyncNaturalHealthRegenerationPayload.ID, SyncNaturalHealthRegenerationPayload.CODEC);
 		PayloadTypeRegistry.playS2C().register(SyncUniqueIngredientsPayload.ID, SyncUniqueIngredientsPayload.CODEC);
 	}
 }

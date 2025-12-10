@@ -12,6 +12,6 @@ public class ResetValuesEvent implements ClientPlayConnectionEvents.Disconnect {
 	@Override
 	public void onPlayDisconnect(ClientPlayNetworkHandler handler, MinecraftClient client) {
 		HeartyMealsClient.forceDisableSprinting = false;
-		HeartyMealsClient.naturalRegen = true;
+		HeartyMealsClient.naturalHealthRegeneration = true;
 	}
 }

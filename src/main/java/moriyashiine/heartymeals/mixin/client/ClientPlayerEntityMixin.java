@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin {
-	@ModifyExpressionValue(method = "canSprint()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;getFoodLevel()I"))
-	private int heartymeals$sprintFix(int value) {
+	@ModifyExpressionValue(method = "canSprint", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;canSprintOrFly()Z"))
+	private boolean heartymeals$disableSprinting(boolean original) {
 		if (ModConfig.disableSprinting || HeartyMealsClient.forceDisableSprinting) {
-			return 0;
+			return false;
 		}
-		return 20;
+		return original;
 	}
 }

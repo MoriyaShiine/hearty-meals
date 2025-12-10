@@ -31,7 +31,7 @@ public record SyncUniqueIngredientsPayload(
 
 	public static void send(ServerPlayerEntity receiver) {
 		Object2IntMap<RegistryEntry<Item>> entryMap = new Object2IntOpenHashMap<>();
-		UniqueIngredientsEvent.UNIQUE_INGREDIENTS.forEach((item, amount) -> entryMap.put(Registries.ITEM.getEntry(item), amount.intValue()));
+		UniqueIngredientsEvent.UNIQUE_INGREDIENTS.forEach((item, amount) -> entryMap.put(Registries.ITEM.getEntry(item), amount));
 		ServerPlayNetworking.send(receiver, new SyncUniqueIngredientsPayload(entryMap));
 	}
 
@@ -39,7 +39,7 @@ public record SyncUniqueIngredientsPayload(
 		@Override
 		public void receive(SyncUniqueIngredientsPayload payload, ClientPlayNetworking.Context context) {
 			UniqueIngredientsEvent.UNIQUE_INGREDIENTS.clear();
-			payload.uniqueIngredients().forEach((itemEntry, amount) -> UniqueIngredientsEvent.UNIQUE_INGREDIENTS.put(itemEntry.value(), amount.intValue()));
+			payload.uniqueIngredients().forEach((itemEntry, amount) -> UniqueIngredientsEvent.UNIQUE_INGREDIENTS.put(itemEntry.value(), amount));
 		}
 	}
 }

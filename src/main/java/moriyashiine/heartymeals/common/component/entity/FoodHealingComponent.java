@@ -26,8 +26,8 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.rule.GameRules;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 import vectorwing.farmersdelight.common.registry.ModEffects;
@@ -138,7 +138,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		if (healAmount > 0) {
 			healTicks++;
 			if (healTicks % ticksPerHeal == 0) {
-				if (obj.getEntityWorld() instanceof ServerWorld world && !obj.hasStatusEffect(StatusEffects.HUNGER) && world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)) {
+				if (obj.getEntityWorld() instanceof ServerWorld world && !obj.hasStatusEffect(StatusEffects.HUNGER) && world.getGameRules().getValue(GameRules.NATURAL_HEALTH_REGENERATION)) {
 					obj.heal(1);
 				}
 				amountHealed++;

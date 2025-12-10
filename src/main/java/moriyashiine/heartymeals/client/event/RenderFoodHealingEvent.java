@@ -45,7 +45,7 @@ public class RenderFoodHealingEvent {
 		public static int color = -1;
 
 		public static void displayHealthGained(MinecraftClient client, DrawContext context, PlayerEntity player, float maxHealth) {
-			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen) {
+			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration) {
 				int health = MathHelper.ceil(player.getHealth());
 				if (health < maxHealth) {
 					int toHeal = getHealAmount(client, player);
@@ -98,7 +98,7 @@ public class RenderFoodHealingEvent {
 	public static class Tooltip implements ItemTooltipCallback {
 		@Override
 		public void getTooltip(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
-			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalRegen && stack.contains(DataComponentTypes.FOOD)) {
+			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration && stack.contains(DataComponentTypes.FOOD)) {
 				int healAmount = getItemHealAmount(stack);
 				if (healAmount > 0) {
 					float seconds = getMaximumHealTicks(stack) / 20F;

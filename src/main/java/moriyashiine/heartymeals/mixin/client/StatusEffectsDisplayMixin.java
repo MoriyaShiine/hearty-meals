@@ -23,36 +23,26 @@ import java.util.List;
 @Mixin(StatusEffectsDisplay.class)
 public class StatusEffectsDisplayMixin {
 	@Unique
-	private static final Identifier COZY_BACKGROUND_LARGE = HeartyMeals.id("container/inventory/cozy_background_large");
-	@Unique
-	private static final Identifier COZY_BACKGROUND_SMALL = HeartyMeals.id("container/inventory/cozy_background_small");
+	private static final Identifier COZY_BACKGROUND = HeartyMeals.id("container/inventory/cozy_background");
 
 	@Unique
 	private static boolean isCozy = false;
 
-	@WrapOperation(method = "drawStatusEffects(Lnet/minecraft/client/gui/DrawContext;II)V", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Ordering;sortedCopy(Ljava/lang/Iterable;)Ljava/util/List;"))
+	@WrapOperation(method = "drawStatusEffects", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Ordering;sortedCopy(Ljava/lang/Iterable;)Ljava/util/List;"))
 	private List<StatusEffectInstance> heartymeals$prioritizeCozy(Ordering<?> instance, Iterable<StatusEffectInstance> elements, Operation<List<StatusEffectInstance>> original) {
 		return HeartyMealsClient.prioritizeCozy(instance, elements, original);
 	}
 
-	@ModifyVariable(method = "drawStatusEffectBackgrounds", at = @At("STORE"))
+	@ModifyVariable(method = "drawStatusEffects", at = @At("STORE"))
 	private StatusEffectInstance heartymeals$trackCozy(StatusEffectInstance statusEffectInstance) {
 		isCozy = statusEffectInstance.getEffectType() == ModStatusEffects.COZY;
 		return statusEffectInstance;
 	}
 
-	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
+	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V"))
 	private Identifier heartymeals$cozyBackgroundLarge(Identifier value) {
 		if (isCozy) {
-			return COZY_BACKGROUND_LARGE;
-		}
-		return value;
-	}
-
-	@ModifyArg(method = "drawStatusEffectBackgrounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V", ordinal = 1))
-	private Identifier heartymeals$cozyBackgroundSmall(Identifier value) {
-		if (isCozy) {
-			return COZY_BACKGROUND_SMALL;
+			return COZY_BACKGROUND;
 		}
 		return value;
 	}

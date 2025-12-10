@@ -58,6 +58,11 @@ public abstract class HungerManagerMixin {
 		}
 	}
 
+	@Inject(method = "canSprint", at = @At("HEAD"), cancellable = true)
+	private void heartymeals$allowSprinting(CallbackInfoReturnable<Boolean> cir) {
+		cir.setReturnValue(true);
+	}
+
 	@ModifyVariable(method = "addInternal", at = @At("HEAD"), argsOnly = true)
 	private float heartymeals$increasedSaturation(float value) {
 		if (FoodHealingComponent.modifiedSaturation != -1) {

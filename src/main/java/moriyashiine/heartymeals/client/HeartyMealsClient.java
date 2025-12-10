@@ -8,7 +8,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import moriyashiine.heartymeals.client.event.RenderFoodHealingEvent;
 import moriyashiine.heartymeals.client.event.ResetValuesEvent;
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
-import moriyashiine.heartymeals.client.payload.SyncNaturalRegenPayload;
+import moriyashiine.heartymeals.client.payload.SyncNaturalHealthRegenerationPayload;
 import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.init.ModStatusEffects;
 import net.fabricmc.api.ClientModInitializer;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 public class HeartyMealsClient implements ClientModInitializer {
-	public static boolean forceDisableSprinting = false, naturalRegen = true;
+	public static boolean forceDisableSprinting = false, naturalHealthRegeneration = true;
 
 	public static boolean leaveMyBarsAloneLoaded = false;
 
@@ -43,7 +43,7 @@ public class HeartyMealsClient implements ClientModInitializer {
 
 	private void initPayloads() {
 		ClientPlayNetworking.registerGlobalReceiver(ForceDisableSprintingPayload.ID, new ForceDisableSprintingPayload.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalRegenPayload.ID, new SyncNaturalRegenPayload.Receiver());
+		ClientPlayNetworking.registerGlobalReceiver(SyncNaturalHealthRegenerationPayload.ID, new SyncNaturalHealthRegenerationPayload.Receiver());
 		ClientPlayNetworking.registerGlobalReceiver(SyncUniqueIngredientsPayload.ID, new SyncUniqueIngredientsPayload.Receiver());
 	}
 

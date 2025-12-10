@@ -9,10 +9,10 @@
 	"FoodComponentBuilderMixin",
 	"FoodComponentMixin",
 	"FoodComponentsMixin",
-	"GameRulesBooleanRuleMixin",
 	"HungerManagerMixin",
 	"HungerStatusEffectMixin",
 	"ItemSettingsMixin",
+	"MinecraftServerMixin",
 	"PlayerEntityMixin",
 	"SaturationStatusEffectMixin",
 	"StatusEffectUtilMixin"
