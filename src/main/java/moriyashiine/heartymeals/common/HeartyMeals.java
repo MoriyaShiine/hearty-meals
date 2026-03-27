@@ -1,6 +1,7 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.common;
 
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
@@ -9,7 +10,7 @@ import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
 import moriyashiine.heartymeals.common.event.SyncValuesEvent;
 import moriyashiine.heartymeals.common.event.UniqueIngredientsEvent;
-import moriyashiine.heartymeals.common.init.ModStatusEffects;
+import moriyashiine.heartymeals.common.init.ModMobEffects;
 import moriyashiine.strawberrylib.api.SLib;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
@@ -17,7 +18,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public class HeartyMeals implements ModInitializer {
 	public static final String MOD_ID = "heartymeals";
@@ -28,17 +29,23 @@ public class HeartyMeals implements ModInitializer {
 	public void onInitialize() {
 		SLib.init(MOD_ID);
 		initRegistries();
-		initEvents();
 		initPayloads();
+		initEvents();
 		farmersDelightLoaded = FabricLoader.getInstance().isModLoaded("farmersdelight");
 	}
 
 	public static Identifier id(String value) {
-		return Identifier.of(MOD_ID, value);
+		return Identifier.fromNamespaceAndPath(MOD_ID, value);
 	}
 
 	private void initRegistries() {
-		ModStatusEffects.init();
+		ModMobEffects.init();
+	}
+
+	private void initPayloads() {
+		PayloadTypeRegistry.clientboundPlay().register(ForceDisableSprintingPayload.TYPE, ForceDisableSprintingPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(SyncNaturalHealthRegenerationPayload.TYPE, SyncNaturalHealthRegenerationPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(SyncUniqueIngredientsPayload.TYPE, SyncUniqueIngredientsPayload.CODEC);
 	}
 
 	private void initEvents() {
@@ -47,11 +54,5 @@ public class HeartyMeals implements ModInitializer {
 		ServerPlayConnectionEvents.JOIN.register(new UniqueIngredientsEvent.Join());
 		ServerPlayConnectionEvents.JOIN.register(new SyncValuesEvent());
 		EntitySleepEvents.STOP_SLEEPING.register(new BedHealingEvent());
-	}
-
-	private void initPayloads() {
-		PayloadTypeRegistry.playS2C().register(ForceDisableSprintingPayload.ID, ForceDisableSprintingPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(SyncNaturalHealthRegenerationPayload.ID, SyncNaturalHealthRegenerationPayload.CODEC);
-		PayloadTypeRegistry.playS2C().register(SyncUniqueIngredientsPayload.ID, SyncUniqueIngredientsPayload.CODEC);
 	}
 }

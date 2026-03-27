@@ -1,15 +1,16 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.mixin;
 
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.util.StewHolder;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(FoodComponent.class)
-public abstract class FoodComponentMixin implements StewHolder {
+@Mixin(FoodProperties.class)
+public abstract class FoodPropertiesMixin implements StewHolder {
 	@Unique
 	private boolean isStew = false;
 
@@ -35,8 +36,8 @@ public abstract class FoodComponentMixin implements StewHolder {
 		isStew = stew;
 	}
 
-	@Inject(method = "onConsume", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;eat(Lnet/minecraft/component/type/FoodComponent;)V"))
-	private void heartymeals$increasedSaturation(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo ci) {
+	@Inject(method = "onConsume", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;eat(Lnet/minecraft/world/food/FoodProperties;)V"))
+	private void heartymeals$increasedSaturation(Level level, LivingEntity user, ItemStack stack, Consumable consumable, CallbackInfo ci) {
 		float modifiedSaturation = FoodHealingComponent.getModifiedSaturation(stack, saturation());
 		if (modifiedSaturation != saturation()) {
 			FoodHealingComponent.modifiedSaturation = modifiedSaturation;

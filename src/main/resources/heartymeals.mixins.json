@@ -2,29 +2,32 @@
   "required": true,
   "package": "moriyashiine.heartymeals.mixin",
   "plugin": "moriyashiine.heartymeals.common.ModMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
-	"BundleContentsComponentMixin",
-	"ConsumableComponentMixin",
-	"FoodComponentBuilderMixin",
-	"FoodComponentMixin",
-	"FoodComponentsMixin",
-	"HungerManagerMixin",
-	"HungerStatusEffectMixin",
-	"ItemSettingsMixin",
+	"BundleContentsMixin",
+	"ConsumableMixin",
+	"FoodDataMixin",
+	"FoodPropertiesBuilderMixin",
+	"FoodPropertiesMixin",
+	"FoodsMixin",
+	"HungerMobEffectMixin",
+	"ItemPropertiesMixin",
 	"MinecraftServerMixin",
-	"PlayerEntityMixin",
-	"SaturationStatusEffectMixin",
-	"StatusEffectUtilMixin"
+	"MobEffectUtilMixin",
+	"PlayerMixin",
+	"SaturationMobEffectMixin"
   ],
   "client": [
-	"client.ClientPlayerEntityMixin",
-	"client.DrawContextMixin",
-	"client.InGameHudMixin",
-	"client.StatusEffectsDisplayMixin",
+	"client.EffectsInInventoryMixin",
+	"client.GuiGraphicsExtractorMixin",
+	"client.GuiMixin",
+	"client.LocalPlayerMixin",
 	"integration.farmersdelight.client.NourishmentOverlayMixin"
   ],
   "injectors": {
 	"defaultRequire": 1
+  },
+  "overwrites": {
+	"requireAnnotations": true
   }
 }

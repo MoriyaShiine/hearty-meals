@@ -1,28 +1,29 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.data.provider;
 
 import moriyashiine.heartymeals.common.tag.ModItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Items;
 
 import java.util.concurrent.CompletableFuture;
 
-import static net.minecraft.util.Identifier.of;
+import static net.minecraft.resources.Identifier.fromNamespaceAndPath;
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-	public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
-		super(output, completableFuture);
+public class ModItemTagsProvider extends FabricTagsProvider.ItemTagsProvider {
+	public ModItemTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+		super(output, registriesFuture);
 	}
 
 	@Override
-	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+	protected void addTags(HolderLookup.Provider registries) {
 		valueLookupBuilder(ModItemTags.FOOD_INGREDIENTS)
 				.forceAddTag(ConventionalItemTags.FOODS)
 				.forceAddTag(ConventionalItemTags.CROPS)
@@ -36,7 +37,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 		valueLookupBuilder(ModItemTags.INCREASED_SATURATION)
 				.add(Items.PUMPKIN_PIE);
 
-		valueLookupBuilder(TagKey.of(RegistryKeys.ITEM, of("enchancement", "cannot_automatically_consume")))
+		valueLookupBuilder(TagKey.create(Registries.ITEM, fromNamespaceAndPath("enchancement", "cannot_automatically_consume")))
 				.add(Items.GOLDEN_CARROT);
 	}
 }

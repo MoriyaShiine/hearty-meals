@@ -1,6 +1,7 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.common;
 
 import net.fabricmc.loader.api.FabricLoader;

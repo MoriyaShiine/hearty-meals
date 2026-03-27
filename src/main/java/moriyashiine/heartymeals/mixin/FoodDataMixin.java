@@ -1,15 +1,16 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import moriyashiine.heartymeals.common.ModConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
 import moriyashiine.heartymeals.common.init.ModEntityComponents;
-import net.minecraft.entity.player.HungerManager;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,35 +20,35 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = HungerManager.class, priority = 1001)
-public abstract class HungerManagerMixin {
+@Mixin(value = FoodData.class, priority = 1001)
+public abstract class FoodDataMixin {
 	@Unique
-	private ServerPlayerEntity cachedPlayer = null;
+	private ServerPlayer cachedPlayer = null;
 
 	@Shadow
-	public abstract boolean isNotFull();
+	public abstract boolean needsFood();
 
 	@Shadow
-	public abstract void setFoodLevel(int foodLevel);
+	public abstract void setFoodLevel(int food);
 
 	@Shadow
-	public abstract void setSaturationLevel(float saturationLevel);
+	public abstract void setSaturation(float saturation);
 
 	@Shadow
-	private float exhaustion;
+	private float exhaustionLevel;
 
-	@Inject(method = "update", at = @At("HEAD"))
-	private void heartymeals$forceFullHunger(ServerPlayerEntity player, CallbackInfo ci) {
+	@Inject(method = "tick", at = @At("HEAD"))
+	private void heartymeals$forceFullHunger(ServerPlayer player, CallbackInfo ci) {
 		cachedPlayer = player;
-		if (isNotFull()) {
+		if (needsFood()) {
 			setFoodLevel(20);
-			setSaturationLevel(20);
-			exhaustion = 0;
+			setSaturation(20);
+			exhaustionLevel = 0;
 		}
 	}
 
-	@ModifyExpressionValue(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;canFoodHeal()Z"))
-	private boolean heartymeals$preventNaturalHealing(boolean value) {
+	@ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isHurt()Z"))
+	private boolean heartymeals$preventNaturalHealing(boolean original) {
 		return false;
 	}
 
@@ -58,25 +59,25 @@ public abstract class HungerManagerMixin {
 		}
 	}
 
-	@Inject(method = "canSprint", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "hasEnoughFood", at = @At("HEAD"), cancellable = true)
 	private void heartymeals$allowSprinting(CallbackInfoReturnable<Boolean> cir) {
 		cir.setReturnValue(true);
 	}
 
-	@ModifyVariable(method = "addInternal", at = @At("HEAD"), argsOnly = true)
-	private float heartymeals$increasedSaturation(float value) {
+	@ModifyVariable(method = "add", at = @At("HEAD"), argsOnly = true)
+	private float heartymeals$increasedSaturation(float saturation) {
 		if (FoodHealingComponent.modifiedSaturation != -1) {
-			float saturation = FoodHealingComponent.modifiedSaturation;
+			float modifiedSaturation = FoodHealingComponent.modifiedSaturation;
 			FoodHealingComponent.modifiedSaturation = -1;
-			return saturation;
+			return modifiedSaturation;
 		}
-		return value;
+		return saturation;
 	}
 
-	@Inject(method = "addInternal", at = @At("HEAD"))
+	@Inject(method = "add", at = @At("HEAD"))
 	private void heartymeals$treatAsHealth(int food, float saturation, CallbackInfo ci) {
 		if (cachedPlayer != null) {
-			food = MathHelper.floor(food * ModConfig.healthGainMultiplier);
+			food = Mth.floor(food * ModConfig.healthGainMultiplier);
 			if (ModConfig.instantRegeneration) {
 				cachedPlayer.heal(food);
 			} else {

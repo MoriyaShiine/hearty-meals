@@ -1,11 +1,12 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.api.event;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public interface DisableHudRepositioningEvent {
 	/**
@@ -20,5 +21,5 @@ public interface DisableHudRepositioningEvent {
 		return false;
 	});
 
-	boolean shouldDisableRepositioning(PlayerEntity player);
+	boolean shouldDisableRepositioning(Player player);
 }

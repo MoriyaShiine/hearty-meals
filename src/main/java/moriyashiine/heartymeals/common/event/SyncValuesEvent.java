@@ -1,6 +1,7 @@
 /*
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
+
 package moriyashiine.heartymeals.common.event;
 
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
@@ -9,17 +10,17 @@ import moriyashiine.heartymeals.common.ModConfig;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.world.rule.GameRules;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.level.gamerules.GameRules;
 
 public class SyncValuesEvent implements ServerPlayConnectionEvents.Join {
 	@Override
-	public void onPlayReady(ServerPlayNetworkHandler handler, PacketSender sender, MinecraftServer server) {
+	public void onPlayReady(ServerGamePacketListenerImpl listener, PacketSender sender, MinecraftServer server) {
 		if (ModConfig.disableSprinting && !server.isSingleplayer()) {
-			ForceDisableSprintingPayload.send(handler.getPlayer());
+			ForceDisableSprintingPayload.send(listener.getPlayer());
 		}
-		if (!handler.getPlayer().getEntityWorld().getGameRules().getValue(GameRules.NATURAL_HEALTH_REGENERATION)) {
-			SyncNaturalHealthRegenerationPayload.send(handler.getPlayer(), false);
+		if (!listener.getPlayer().level().getGameRules().get(GameRules.NATURAL_HEALTH_REGENERATION)) {
+			SyncNaturalHealthRegenerationPayload.send(listener.getPlayer(), false);
 		}
 	}
 }
