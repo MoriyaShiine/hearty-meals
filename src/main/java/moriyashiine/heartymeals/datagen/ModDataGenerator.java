@@ -2,10 +2,10 @@
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
 
-package moriyashiine.heartymeals.data;
+package moriyashiine.heartymeals.datagen;
 
-import moriyashiine.heartymeals.data.provider.ModBlockTagsProvider;
-import moriyashiine.heartymeals.data.provider.ModItemTagsProvider;
+import moriyashiine.heartymeals.datagen.provider.ModBlockTagsProvider;
+import moriyashiine.heartymeals.datagen.provider.ModItemTagsProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 

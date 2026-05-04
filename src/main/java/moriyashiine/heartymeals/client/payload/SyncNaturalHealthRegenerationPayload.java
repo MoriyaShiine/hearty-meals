@@ -16,7 +16,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 public record SyncNaturalHealthRegenerationPayload(boolean value) implements CustomPacketPayload {
 	public static final CustomPacketPayload.Type<SyncNaturalHealthRegenerationPayload> TYPE = new Type<>(HeartyMeals.id("sync_natural_health_regeneration"));
-	public static final StreamCodec<FriendlyByteBuf, SyncNaturalHealthRegenerationPayload> CODEC = StreamCodec.composite(ByteBufCodecs.BOOL, SyncNaturalHealthRegenerationPayload::value, SyncNaturalHealthRegenerationPayload::new);
+	public static final StreamCodec<FriendlyByteBuf, SyncNaturalHealthRegenerationPayload> CODEC = StreamCodec.composite(
+			ByteBufCodecs.BOOL, SyncNaturalHealthRegenerationPayload::value,
+			SyncNaturalHealthRegenerationPayload::new);
 
 	@Override
 	public Type<SyncNaturalHealthRegenerationPayload> type() {

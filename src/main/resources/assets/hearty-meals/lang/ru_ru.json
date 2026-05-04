@@ -1,0 +1,14 @@
+{
+  "effect.hearty-meals.cozy": "Уютно",
+  "effect.hearty-meals.cozy.description": "От Костра",
+  "tag.item.hearty-meals.increased_saturation": "Увеличенное Насыщение",
+  "hearty-meals.midnightconfig.title": "Сытная Еда",
+  "hearty-meals.midnightconfig.category.client": "Клиент",
+  "hearty-meals.midnightconfig.campfireHealing": "Лечение От Костра",
+  "hearty-meals.midnightconfig.disableSprinting": "Отключить Бег",
+  "hearty-meals.midnightconfig.fasterFluidConsumption": "Ускоренное Питьё",
+  "hearty-meals.midnightconfig.increaseHoneySaturation": "Увеличенная Сытность Мёда",
+  "hearty-meals.midnightconfig.potionBundleStacking": "Стопки Зелий в Мешке",
+  "hearty-meals.midnightconfig.displayHealthGained": "Отображать Получаемое Здоровье",
+  "hearty-meals.midnightconfig.moveArmorBar": "Переместить Шкалу Брони"
+}

@@ -1,0 +1,20 @@
+{
+  "effect.hearty-meals.cozy": "Rahat",
+  "effect.hearty-meals.cozy.description": "Kamp Ateşinden",
+  "tag.item.hearty-meals.increased_saturation": "Arttırılmış Doygunluk",
+  "hearty-meals.midnightconfig.title": "Hearty Meals",
+  "hearty-meals.midnightconfig.category.client": "İstemci",
+  "hearty-meals.midnightconfig.allowEatingWhenFull": "Tokken Yemeye İzin Ver",
+  "hearty-meals.midnightconfig.campfireHealing": "Kamp Ateşi İyileştirmesi",
+  "hearty-meals.midnightconfig.disableSprinting": "Koşmayı Kapat",
+  "hearty-meals.midnightconfig.fasterFluidConsumption": "Hızlı Sıvı Tüketimi",
+  "hearty-meals.midnightconfig.increaseHoneySaturation": "Bal Doygunluğunu Arttır",
+  "hearty-meals.midnightconfig.instantConsumption": "Anında Tüketim",
+  "hearty-meals.midnightconfig.instantRegeneration": "Anında Yenilenme",
+  "hearty-meals.midnightconfig.potionBundleStacking": "İksirleri Keseye Yığınlama",
+  "hearty-meals.midnightconfig.healthGainMultiplier": "Sağlık Kazanımı Çarpanı",
+  "hearty-meals.midnightconfig.regenerationTimeMultiplier": "Yenilenme Zamanı Çarpanı",
+  "hearty-meals.midnightconfig.displayHealthGained": "Edinilen Sağlık Gösterilsin",
+  "hearty-meals.midnightconfig.mirrorArmorBar": "Zırh Çubuğunu Aynala",
+  "hearty-meals.midnightconfig.moveArmorBar": "Zırh Çubuğununun Yerini Değiştir"
+}

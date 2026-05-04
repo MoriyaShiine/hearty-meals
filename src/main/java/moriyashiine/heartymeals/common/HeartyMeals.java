@@ -21,7 +21,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 
 public class HeartyMeals implements ModInitializer {
-	public static final String MOD_ID = "heartymeals";
+	public static final String MOD_ID = "hearty-meals";
 
 	public static boolean farmersDelightLoaded = false;
 

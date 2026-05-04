@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MobEffectUtil.class)
 public class MobEffectUtilMixin {
 	@Unique
-	private static final Component COZY_DURATION_TEXT = Component.translatable("effect.heartymeals.cozy.description").withStyle(ChatFormatting.ITALIC);
+	private static final Component COZY_DURATION_TEXT = Component.translatable("effect.hearty-meals.cozy.description").withStyle(ChatFormatting.ITALIC);
 
 	@Inject(method = "formatDuration", at = @At("HEAD"), cancellable = true)
 	private static void heartymeals$cozyNoDuration(MobEffectInstance instance, float scale, float tickrate, CallbackInfoReturnable<Component> cir) {

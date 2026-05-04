@@ -2,7 +2,7 @@
  * Copyright (c) MoriyaShiine. All Rights Reserved.
  */
 
-package moriyashiine.heartymeals.data.provider;
+package moriyashiine.heartymeals.datagen.provider;
 
 import moriyashiine.heartymeals.common.tag.ModItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
