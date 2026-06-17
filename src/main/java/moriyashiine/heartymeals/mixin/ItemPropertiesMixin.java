@@ -4,7 +4,7 @@
 
 package moriyashiine.heartymeals.mixin;
 
-import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import moriyashiine.heartymeals.common.util.StewHolder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
@@ -22,7 +22,7 @@ public class ItemPropertiesMixin {
 	@SuppressWarnings("unchecked")
 	@ModifyVariable(method = "component", at = @At("HEAD"), argsOnly = true)
 	private <T> T heartymeals$fasterFluidConsumption(T value, DataComponentType<T> type) {
-		if (ModConfig.fasterFluidConsumption && type == DataComponents.CONSUMABLE) {
+		if (HeartyMealsConfig.fasterFluidConsumption && type == DataComponents.CONSUMABLE) {
 			Consumable consumable = (Consumable) value;
 			if (consumable.animation() == ItemUseAnimation.DRINK) {
 				return (T) new Consumable(consumable.consumeSeconds() / 2, consumable.animation(), consumable.sound(), consumable.hasConsumeParticles(), consumable.onConsumeEffects());
@@ -34,7 +34,7 @@ public class ItemPropertiesMixin {
 	@SuppressWarnings("ConstantValue")
 	@ModifyVariable(method = "food(Lnet/minecraft/world/food/FoodProperties;Lnet/minecraft/world/item/component/Consumable;)Lnet/minecraft/world/item/Item$Properties;", at = @At("HEAD"), argsOnly = true)
 	private Consumable heartymeals$fasterFluidConsumption(Consumable consumable, FoodProperties foodProperties) {
-		if (ModConfig.fasterFluidConsumption && ((StewHolder) (Object) foodProperties).heartymeals$isStew()) {
+		if (HeartyMealsConfig.fasterFluidConsumption && ((StewHolder) (Object) foodProperties).heartymeals$isStew()) {
 			return new Consumable(consumable.consumeSeconds() / 2, consumable.animation(), consumable.sound(), consumable.hasConsumeParticles(), consumable.onConsumeEffects());
 		}
 		return consumable;
@@ -42,7 +42,7 @@ public class ItemPropertiesMixin {
 
 	@ModifyVariable(method = "food(Lnet/minecraft/world/food/FoodProperties;Lnet/minecraft/world/item/component/Consumable;)Lnet/minecraft/world/item/Item$Properties;", at = @At("HEAD"), argsOnly = true)
 	private FoodProperties heartymeals$increaseHoneySaturation(FoodProperties foodProperties) {
-		if (ModConfig.increaseHoneySaturation && foodProperties == Foods.HONEY_BOTTLE) {
+		if (HeartyMealsConfig.increaseHoneySaturation && foodProperties == Foods.HONEY_BOTTLE) {
 			return new FoodProperties(foodProperties.nutrition(), foodProperties.saturation() * 8, foodProperties.canAlwaysEat());
 		}
 		return foodProperties;

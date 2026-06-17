@@ -12,7 +12,7 @@ import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 
-public class ModEntityComponents implements EntityComponentInitializer {
+public class HeartyMealsEntityComponents implements EntityComponentInitializer {
 	public static final ComponentKey<FoodHealingComponent> FOOD_HEALING = ComponentRegistry.getOrCreate(HeartyMeals.id("food_healing"), FoodHealingComponent.class);
 
 	@Override

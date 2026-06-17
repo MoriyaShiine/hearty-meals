@@ -18,7 +18,8 @@ public record SyncNaturalHealthRegenerationPayload(boolean value) implements Cus
 	public static final CustomPacketPayload.Type<SyncNaturalHealthRegenerationPayload> TYPE = new Type<>(HeartyMeals.id("sync_natural_health_regeneration"));
 	public static final StreamCodec<FriendlyByteBuf, SyncNaturalHealthRegenerationPayload> CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, SyncNaturalHealthRegenerationPayload::value,
-			SyncNaturalHealthRegenerationPayload::new);
+			SyncNaturalHealthRegenerationPayload::new
+	);
 
 	@Override
 	public Type<SyncNaturalHealthRegenerationPayload> type() {

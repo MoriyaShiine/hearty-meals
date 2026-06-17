@@ -6,15 +6,15 @@ package moriyashiine.heartymeals.client.event;
 
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.common.HeartyMeals;
-import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
-import moriyashiine.heartymeals.common.init.ModEntityComponents;
+import moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponents;
@@ -39,14 +39,19 @@ import static moriyashiine.heartymeals.common.component.entity.FoodHealingCompon
 import static moriyashiine.heartymeals.common.component.entity.FoodHealingComponent.getTicksPerHeal;
 
 public class RenderFoodHealingEvent {
-	public static class Hud {
+	public static void init() {
+		ClientTickEvents.END_LEVEL_TICK.register(new Tick());
+		ItemTooltipCallback.EVENT.register(new Tooltip());
+	}
+
+	public static class Hearts {
 		public static Identifier fullTexture = null, halfTexture = null;
-		public static Gui.HeartType heartType;
+		public static Hud.HeartType heartType;
 		public static int[] xPoses = null, yPoses = null;
 		public static int color = -1;
 
 		public static void displayHealthGained(Minecraft client, GuiGraphicsExtractor graphics, Player player, float maxHealth) {
-			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration) {
+			if (HeartyMealsConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration) {
 				int health = Mth.ceil(player.getHealth());
 				if (health < maxHealth) {
 					int toHeal = getHealAmount(client, player);
@@ -82,7 +87,7 @@ public class RenderFoodHealingEvent {
 		}
 	}
 
-	public static class Tick implements ClientTickEvents.EndLevelTick {
+	private static class Tick implements ClientTickEvents.EndLevelTick {
 		private static int renderTicks = 0;
 
 		@Override
@@ -96,16 +101,16 @@ public class RenderFoodHealingEvent {
 		}
 	}
 
-	public static class Tooltip implements ItemTooltipCallback {
+	private static class Tooltip implements ItemTooltipCallback {
 		@Override
 		public void getTooltip(ItemStack stack, Item.TooltipContext tooltipContext, TooltipFlag tooltipFlag, List<Component> lines) {
-			if (ModConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration && stack.has(DataComponents.FOOD)) {
+			if (HeartyMealsConfig.displayHealthGained && HeartyMealsClient.naturalHealthRegeneration && stack.has(DataComponents.FOOD)) {
 				int healAmount = getItemHealAmount(stack);
 				if (healAmount > 0) {
 					float seconds = getMaximumHealTicks(stack) / 20F;
 					MutableComponent text = Component.literal(DecimalFormat.getNumberInstance().format(healAmount / 2F) + " ").withStyle(ChatFormatting.GRAY);
 					text.append(Component.literal("❤ ").withStyle(ChatFormatting.RED));
-					if (!ModConfig.instantRegeneration) {
+					if (!HeartyMealsConfig.instantRegeneration) {
 						text.append(Component.literal("/ " + DecimalFormat.getNumberInstance().format(seconds) + "s").withStyle(ChatFormatting.GRAY));
 					}
 					lines.add(1, text);
@@ -120,9 +125,9 @@ public class RenderFoodHealingEvent {
 
 	private static int getHealAmount(Minecraft client, Player player) {
 		int toHeal;
-		FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(player);
-		if (foodHealingComponent.getHealAmount() > 0) {
-			toHeal = foodHealingComponent.getHealAmount() - foodHealingComponent.getAmountHealed();
+		FoodHealingComponent foodHealing = HeartyMealsEntityComponents.FOOD_HEALING.get(player);
+		if (foodHealing.getHealAmount() > 0) {
+			toHeal = foodHealing.getHealAmount() - foodHealing.getAmountHealed();
 		} else {
 			toHeal = getItemHealAmount(player.getUseItem());
 			if (toHeal == 0) {
@@ -142,7 +147,7 @@ public class RenderFoodHealingEvent {
 
 	private static int getBlockHealAmount(BlockState state) {
 		if (state.getBlock() instanceof CakeBlock) {
-			return Mth.floor(2 * ModConfig.healthGainMultiplier);
+			return Mth.floor(2 * HeartyMealsConfig.healthGainMultiplier);
 		} else if (HeartyMeals.farmersDelightLoaded && state.getBlock() instanceof PieBlock pieBlock) {
 			return getItemHealAmount(pieBlock.getPieSliceItem());
 		}
@@ -151,7 +156,7 @@ public class RenderFoodHealingEvent {
 
 	private static int getItemHealAmount(ItemStack stack) {
 		if (stack.has(DataComponents.FOOD)) {
-			return Mth.floor(stack.get(DataComponents.FOOD).nutrition() * ModConfig.healthGainMultiplier);
+			return Mth.floor(stack.get(DataComponents.FOOD).nutrition() * HeartyMealsConfig.healthGainMultiplier);
 		}
 		return 0;
 	}

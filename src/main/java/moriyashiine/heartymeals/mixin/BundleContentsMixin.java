@@ -5,7 +5,7 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.mojang.serialization.DataResult;
-import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.component.BundleContents;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BundleContentsMixin {
 	@Inject(method = "getWeight", at = @At("HEAD"), cancellable = true)
 	private static void heartymeals$potionBundleStacking(ItemInstance item, CallbackInfoReturnable<DataResult<Fraction>> cir) {
-		if (ModConfig.potionBundleStacking && item.typeHolder().value() instanceof PotionItem) {
+		if (HeartyMealsConfig.potionBundleStacking && item.typeHolder().value() instanceof PotionItem) {
 			cir.setReturnValue(DataResult.success(Fraction.ONE_QUARTER));
 		}
 	}

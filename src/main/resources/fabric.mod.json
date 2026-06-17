@@ -18,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
 	"fabric-datagen": [
-	  "moriyashiine.heartymeals.datagen.ModDataGenerator"
+	  "moriyashiine.heartymeals.datagen.HeartyMealsDataGenerator"
 	],
 	"main": [
 	  "moriyashiine.heartymeals.common.HeartyMeals"
@@ -27,7 +27,7 @@
 	  "moriyashiine.heartymeals.client.HeartyMealsClient"
 	],
 	"cardinal-components-entity": [
-	  "moriyashiine.heartymeals.common.init.ModEntityComponents"
+	  "moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents"
 	]
   },
   "mixins": [
@@ -36,7 +36,7 @@
   "accessWidener": "hearty-meals.classtweaker",
   "depends": {
 	"fabricloader": "*",
-	"minecraft": "~26.1",
+	"minecraft": "~26.2",
 	"java": ">=25",
 	"fabric-api": "*",
 	"strawberrylib": "*"

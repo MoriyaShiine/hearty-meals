@@ -10,6 +10,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 
 public class ResetValuesEvent implements ClientPlayConnectionEvents.Disconnect {
+	public static void init() {
+		ClientPlayConnectionEvents.DISCONNECT.register(new ResetValuesEvent());
+	}
+
 	@Override
 	public void onPlayDisconnect(ClientPacketListener listener, Minecraft client) {
 		HeartyMealsClient.forceDisableSprinting = false;

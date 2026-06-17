@@ -4,7 +4,7 @@
 
 package moriyashiine.heartymeals.mixin;
 
-import moriyashiine.heartymeals.common.init.ModMobEffects;
+import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -22,7 +22,7 @@ public class MobEffectUtilMixin {
 
 	@Inject(method = "formatDuration", at = @At("HEAD"), cancellable = true)
 	private static void heartymeals$cozyNoDuration(MobEffectInstance instance, float scale, float tickrate, CallbackInfoReturnable<Component> cir) {
-		if (instance.getEffect() == ModMobEffects.COZY) {
+		if (instance.getEffect() == HeartyMealsMobEffects.COZY) {
 			cir.setReturnValue(COZY_DURATION_TEXT);
 		}
 	}

@@ -9,7 +9,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.heartymeals.client.HeartyMealsClient;
 import moriyashiine.heartymeals.common.HeartyMeals;
-import moriyashiine.heartymeals.common.init.ModMobEffects;
+import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
 import net.minecraft.client.gui.screens.inventory.EffectsInInventory;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,7 +36,7 @@ public class EffectsInInventoryMixin {
 
 	@ModifyVariable(method = "extractEffects", at = @At("STORE"), name = "effect")
 	private MobEffectInstance heartymeals$trackCozy(MobEffectInstance effect) {
-		isCozy = effect.getEffect() == ModMobEffects.COZY;
+		isCozy = effect.getEffect() == HeartyMealsMobEffects.COZY;
 		return effect;
 	}
 

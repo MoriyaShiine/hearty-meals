@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "moriyashiine.heartymeals.mixin",
-  "plugin": "moriyashiine.heartymeals.common.ModMixinPlugin",
+  "plugin": "moriyashiine.heartymeals.common.HeartyMealsMixinPlugin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
 	"BundleContentsMixin",
@@ -20,7 +20,7 @@
   "client": [
 	"client.EffectsInInventoryMixin",
 	"client.GuiGraphicsExtractorMixin",
-	"client.GuiMixin",
+	"client.HudMixin",
 	"client.LocalPlayerMixin",
 	"integration.farmersdelight.client.NourishmentOverlayMixin"
   ],

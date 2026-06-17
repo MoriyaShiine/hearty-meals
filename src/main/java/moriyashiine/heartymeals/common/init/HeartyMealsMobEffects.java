@@ -11,7 +11,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 import static moriyashiine.strawberrylib.api.module.SLibRegistries.registerMobEffect;
 
-public class ModMobEffects {
+public class HeartyMealsMobEffects {
 	public static final Holder<MobEffect> COZY = registerMobEffect("cozy", new CozyMobEffect(MobEffectCategory.BENEFICIAL, 0xFF9101));
 
 	public static void init() {

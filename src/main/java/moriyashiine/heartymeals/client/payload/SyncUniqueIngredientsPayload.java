@@ -24,7 +24,8 @@ public record SyncUniqueIngredientsPayload(Object2IntMap<Holder<Item>> uniqueIng
 	public static final CustomPacketPayload.Type<SyncUniqueIngredientsPayload> TYPE = new Type<>(HeartyMeals.id("sync_unique_ingredients"));
 	public static final StreamCodec<RegistryFriendlyByteBuf, SyncUniqueIngredientsPayload> CODEC = StreamCodec.composite(
 			ByteBufCodecs.map(Object2IntOpenHashMap::new, ByteBufCodecs.holderRegistry(Registries.ITEM), ByteBufCodecs.INT), SyncUniqueIngredientsPayload::uniqueIngredients,
-			SyncUniqueIngredientsPayload::new);
+			SyncUniqueIngredientsPayload::new
+	);
 
 	@Override
 	public Type<SyncUniqueIngredientsPayload> type() {

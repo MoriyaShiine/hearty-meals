@@ -5,9 +5,9 @@
 package moriyashiine.heartymeals.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import moriyashiine.heartymeals.common.component.entity.FoodHealingComponent;
-import moriyashiine.heartymeals.common.init.ModEntityComponents;
+import moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.food.FoodData;
@@ -77,13 +77,13 @@ public abstract class FoodDataMixin {
 	@Inject(method = "add", at = @At("HEAD"))
 	private void heartymeals$treatAsHealth(int food, float saturation, CallbackInfo ci) {
 		if (cachedPlayer != null) {
-			food = Mth.floor(food * ModConfig.healthGainMultiplier);
-			if (ModConfig.instantRegeneration) {
+			food = Mth.floor(food * HeartyMealsConfig.healthGainMultiplier);
+			if (HeartyMealsConfig.instantRegeneration) {
 				cachedPlayer.heal(food);
 			} else {
-				FoodHealingComponent foodHealingComponent = ModEntityComponents.FOOD_HEALING.get(cachedPlayer);
-				foodHealingComponent.startHealing(food, saturation);
-				foodHealingComponent.sync();
+				FoodHealingComponent foodHealing = HeartyMealsEntityComponents.FOOD_HEALING.get(cachedPlayer);
+				foodHealing.startHealing(food, saturation);
+				foodHealing.sync();
 			}
 		}
 	}

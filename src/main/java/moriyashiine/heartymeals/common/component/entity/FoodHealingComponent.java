@@ -5,12 +5,12 @@
 package moriyashiine.heartymeals.common.component.entity;
 
 import moriyashiine.heartymeals.common.HeartyMeals;
-import moriyashiine.heartymeals.common.ModConfig;
+import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import moriyashiine.heartymeals.common.event.UniqueIngredientsEvent;
-import moriyashiine.heartymeals.common.init.ModEntityComponents;
-import moriyashiine.heartymeals.common.init.ModMobEffects;
-import moriyashiine.heartymeals.common.tag.ModBlockTags;
-import moriyashiine.heartymeals.common.tag.ModItemTags;
+import moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents;
+import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
+import moriyashiine.heartymeals.common.tag.HeartyMealsBlockTags;
+import moriyashiine.heartymeals.common.tag.HeartyMealsItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -74,7 +74,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	public void sync() {
-		ModEntityComponents.FOOD_HEALING.sync(obj);
+		HeartyMealsEntityComponents.FOOD_HEALING.sync(obj);
 	}
 
 	public void setFromSaturation(boolean fromSaturation) {
@@ -125,14 +125,14 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	}
 
 	public static float getModifiedSaturation(ItemStack stack, float saturation) {
-		if (stack.is(ModItemTags.INCREASED_SATURATION)) {
+		if (stack.is(HeartyMealsItemTags.INCREASED_SATURATION)) {
 			saturation *= 2.6F;
 		}
 		return saturation + UniqueIngredientsEvent.getUniqueIngredients(stack.getItem()) / 2F;
 	}
 
 	public static int getTicksPerHeal(float saturation) {
-		return Mth.floor((int) Math.max(5, Mth.lerp(saturation / 20, 60, 0F)) * ModConfig.regenerationTimeMultiplier);
+		return Mth.floor((int) Math.max(5, Mth.lerp(saturation / 20, 60, 0F)) * HeartyMealsConfig.regenerationTimeMultiplier);
 	}
 
 	private void tickFoodHealing() {
@@ -152,18 +152,18 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	private void tickCampfire() {
 		if (obj.tickCount % 20 == 0) {
-			if (ModConfig.campfireHealing) {
+			if (HeartyMealsConfig.campfireHealing) {
 				Optional<BlockPos> closestCampfire = BlockPos.findClosestMatch(obj.blockPosition(), 5, 5, foundPos -> isCozySource(obj.level(), foundPos));
 				if (closestCampfire.isEmpty()) {
 					closestCampfire = BlockPos.findClosestMatch(obj.blockPosition(), 15, 15, foundPos -> isCozySource(obj.level(), foundPos) && ((CampfireBlock) Blocks.CAMPFIRE).isSmokeSource(obj.level().getBlockState(foundPos.below())));
 				}
 				if (closestCampfire.isPresent()) {
-					obj.addEffect(new MobEffectInstance(ModMobEffects.COZY, MobEffectInstance.INFINITE_DURATION, 0, true, false, true));
+					obj.addEffect(new MobEffectInstance(HeartyMealsMobEffects.COZY, MobEffectInstance.INFINITE_DURATION, 0, true, false, true));
 				} else {
-					obj.removeEffect(ModMobEffects.COZY);
+					obj.removeEffect(HeartyMealsMobEffects.COZY);
 				}
 			} else {
-				obj.removeEffect(ModMobEffects.COZY);
+				obj.removeEffect(HeartyMealsMobEffects.COZY);
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 
 	private static boolean isCozySource(Level level, BlockPos pos) {
 		BlockState state = level.getBlockState(pos);
-		if (state.is(ModBlockTags.COZY_SOURCES)) {
+		if (state.is(HeartyMealsBlockTags.COZY_SOURCES)) {
 			return !state.hasProperty(BlockStateProperties.LIT) || state.getValue(BlockStateProperties.LIT);
 		}
 		return false;

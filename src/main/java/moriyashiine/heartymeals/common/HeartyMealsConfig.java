@@ -6,7 +6,7 @@ package moriyashiine.heartymeals.common;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
-public class ModConfig extends MidnightConfig {
+public class HeartyMealsConfig extends MidnightConfig {
 	@Entry
 	public static boolean allowEatingWhenFull = false;
 	@Entry
@@ -38,6 +38,6 @@ public class ModConfig extends MidnightConfig {
 
 	static {
 		// need to do this before mod init since I mixin into certain things before then
-		MidnightConfig.init(HeartyMeals.MOD_ID, ModConfig.class);
+		MidnightConfig.init(HeartyMeals.MOD_ID, HeartyMealsConfig.class);
 	}
 }

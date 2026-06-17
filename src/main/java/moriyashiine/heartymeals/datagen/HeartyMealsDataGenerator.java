@@ -4,16 +4,16 @@
 
 package moriyashiine.heartymeals.datagen;
 
-import moriyashiine.heartymeals.datagen.provider.ModBlockTagsProvider;
-import moriyashiine.heartymeals.datagen.provider.ModItemTagsProvider;
+import moriyashiine.heartymeals.datagen.provider.HeartyMealsBlockTagsProvider;
+import moriyashiine.heartymeals.datagen.provider.HeartyMealsItemTagsProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class ModDataGenerator implements DataGeneratorEntrypoint {
+public class HeartyMealsDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-		pack.addProvider(ModBlockTagsProvider::new);
-		pack.addProvider(ModItemTagsProvider::new);
+		pack.addProvider(HeartyMealsBlockTagsProvider::new);
+		pack.addProvider(HeartyMealsItemTagsProvider::new);
 	}
 }

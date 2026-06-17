@@ -11,11 +11,8 @@ import moriyashiine.heartymeals.client.event.ResetValuesEvent;
 import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
 import moriyashiine.heartymeals.client.payload.SyncNaturalHealthRegenerationPayload;
 import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
-import moriyashiine.heartymeals.common.init.ModMobEffects;
+import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -43,16 +40,15 @@ public class HeartyMealsClient implements ClientModInitializer {
 	}
 
 	private void initEvents() {
-		ClientTickEvents.END_LEVEL_TICK.register(new RenderFoodHealingEvent.Tick());
-		ClientPlayConnectionEvents.DISCONNECT.register(new ResetValuesEvent());
-		ItemTooltipCallback.EVENT.register(new RenderFoodHealingEvent.Tooltip());
+		RenderFoodHealingEvent.init();
+		ResetValuesEvent.init();
 	}
 
 	public static List<MobEffectInstance> prioritizeCozy(Ordering<?> instance, Iterable<MobEffectInstance> elements, Operation<List<MobEffectInstance>> original) {
 		List<MobEffectInstance> effects = original.call(instance, elements);
 		Set<MobEffectInstance> removed = null;
 		for (int i = effects.size() - 1; i >= 0; i--) {
-			if (effects.get(i).getEffect() == ModMobEffects.COZY) {
+			if (effects.get(i).getEffect() == HeartyMealsMobEffects.COZY) {
 				if (removed == null) {
 					removed = new HashSet<>();
 				}

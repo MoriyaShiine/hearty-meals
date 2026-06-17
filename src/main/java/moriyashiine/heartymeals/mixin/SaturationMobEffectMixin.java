@@ -4,7 +4,7 @@
 
 package moriyashiine.heartymeals.mixin;
 
-import moriyashiine.heartymeals.common.init.ModEntityComponents;
+import moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.SaturationMobEffect;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class SaturationMobEffectMixin {
 	@Inject(method = "applyEffectTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;eat(IF)V"))
 	private void heartymeals$saturationEffect(ServerLevel level, LivingEntity mob, int amplification, CallbackInfoReturnable<Boolean> cir) {
-		ModEntityComponents.FOOD_HEALING.get(mob).setFromSaturation(true);
+		HeartyMealsEntityComponents.FOOD_HEALING.get(mob).setFromSaturation(true);
 	}
 }
