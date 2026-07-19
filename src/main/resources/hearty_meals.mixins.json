@@ -20,7 +20,7 @@
   "client": [
 	"client.EffectsInInventoryMixin",
 	"client.GuiGraphicsExtractorMixin",
-	"client.HudMixin",
+	"client.GuiMixin",
 	"client.LocalPlayerMixin",
 	"integration.farmersdelight.client.NourishmentOverlayMixin"
   ],

@@ -17,8 +17,8 @@ import moriyashiine.heartymeals.common.HeartyMealsConfig;
 import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.Hud;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -37,8 +37,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(Hud.class)
-public abstract class HudMixin {
+@Mixin(Gui.class)
+public abstract class GuiMixin {
 	@Unique
 	private static final Identifier COZY_BACKGROUND_AMBIENT = HeartyMeals.id("hud/cozy_background_ambient");
 
@@ -65,7 +65,7 @@ public abstract class HudMixin {
 	}
 
 	@Inject(method = "extractHearts", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/player/Player;level()Lnet/minecraft/world/level/Level;"))
-	private void heartymeals$displayHealthGained(GuiGraphicsExtractor graphics, Player player, int xLeft, int yLineBase, int healthRowHeight, int heartOffsetIndex, float maxHealth, int currentHealth, int oldHealth, int absorption, boolean blink, CallbackInfo ci, @Local(name = "type") Hud.HeartType type) {
+	private void heartymeals$displayHealthGained(GuiGraphicsExtractor graphics, Player player, int xLeft, int yLineBase, int healthRowHeight, int heartOffsetIndex, float maxHealth, int currentHealth, int oldHealth, int absorption, boolean blink, CallbackInfo ci, @Local(name = "type") Gui.HeartType type) {
 		RenderFoodHealingEvent.Hearts.xPoses = new int[Mth.ceil(maxHealth / 2F)];
 		RenderFoodHealingEvent.Hearts.yPoses = new int[RenderFoodHealingEvent.Hearts.xPoses.length];
 		RenderFoodHealingEvent.Hearts.heartType = type;
@@ -78,22 +78,22 @@ public abstract class HudMixin {
 		RenderFoodHealingEvent.Hearts.displayHealthGained(minecraft, graphics, player, maxHealth);
 	}
 
-	@Inject(method = "extractHearts", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud;extractHeart(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Hud$HeartType;IIZZZ)V", ordinal = 0))
+	@Inject(method = "extractHearts", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;extractHeart(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Gui$HeartType;IIZZZ)V", ordinal = 0))
 	private void heartymeals$disableAbsorptionValueSetting(CallbackInfo ci, @Local(name = "healthContainerCount") int healthContainerCount, @Local(name = "containerIndex") int containerIndex) {
 		setValues = containerIndex < healthContainerCount;
 	}
 
 	@Inject(method = "extractHeart", at = @At("HEAD"))
-	private void heartymeals$displayHealthGained(GuiGraphicsExtractor graphics, Hud.HeartType type, int xo, int yo, boolean isHardcore, boolean blinks, boolean half, CallbackInfo ci) {
-		if (setValues && type == Hud.HeartType.CONTAINER) {
+	private void heartymeals$displayHealthGained(GuiGraphicsExtractor graphics, Gui.HeartType type, int xo, int yo, boolean isHardcore, boolean blinks, boolean half, CallbackInfo ci) {
+		if (setValues && type == Gui.HeartType.CONTAINER) {
 			RenderFoodHealingEvent.Hearts.xPoses[heartIndex] = xo;
 			RenderFoodHealingEvent.Hearts.yPoses[heartIndex] = yo;
 			heartIndex--;
 		}
 	}
 
-	@WrapOperation(method = "extractHeart", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Hud$HeartType;getSprite(ZZZ)Lnet/minecraft/resources/Identifier;"))
-	private Identifier heartymeals$displayHealthGained(Hud.HeartType instance, boolean isHardcore, boolean isHalf, boolean isBlink, Operation<Identifier> original) {
+	@WrapOperation(method = "extractHeart", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui$HeartType;getSprite(ZZZ)Lnet/minecraft/resources/Identifier;"))
+	private Identifier heartymeals$displayHealthGained(Gui.HeartType instance, boolean isHardcore, boolean isHalf, boolean isBlink, Operation<Identifier> original) {
 		Identifier value = original.call(instance, isHardcore, isHalf, isBlink);
 		Identifier other = original.call(instance, isHardcore, !isHalf, isBlink);
 		if (isHalf) {
@@ -179,7 +179,7 @@ public abstract class HudMixin {
 	@Unique
 	private static int adjustArmorY(int value) {
 		if (!disableHudRepositioning && HeartyMealsConfig.moveArmorBar) {
-			if (!HeartyMealsClient.leaveMyBarsAloneLoaded && Minecraft.getInstance().gui.hud.getPlayerVehicleWithHealth() != null) {
+			if (!HeartyMealsClient.leaveMyBarsAloneLoaded && Minecraft.getInstance().gui.getPlayerVehicleWithHealth() != null) {
 				return Integer.MIN_VALUE;
 			}
 			return value + 10;

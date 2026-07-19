@@ -36,7 +36,7 @@
   "accessWidener": "hearty_meals.classtweaker",
   "depends": {
 	"fabricloader": "*",
-	"minecraft": "~26.2",
+	"minecraft": "~26.1",
 	"java": ">=25",
 	"fabric-api": "*",
 	"strawberrylib": "*"
