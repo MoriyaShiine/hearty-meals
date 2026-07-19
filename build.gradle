@@ -19,7 +19,7 @@ chenille {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/hearty-meals.classtweaker")
+    accessWidenerPath = file("src/main/resources/hearty_meals.classtweaker")
 }
 
 fabricApi {

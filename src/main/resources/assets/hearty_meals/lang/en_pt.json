@@ -1,0 +1,14 @@
+{
+  "effect.hearty_meals.cozy": "Comfy-like",
+  "effect.hearty_meals.cozy.description": "From Campfire",
+  "tag.item.hearty_meals.increased_saturation": "Upped Intensity",
+  "hearty_meals.midnightconfig.title": "Hearty Meals",
+  "hearty_meals.midnightconfig.category.client": "Client",
+  "hearty_meals.midnightconfig.campfireHealing": "Campfire Healing",
+  "hearty_meals.midnightconfig.disableSprinting": "No Ramming Faster",
+  "hearty_meals.midnightconfig.fasterFluidConsumption": "Faster Fluid Supping",
+  "hearty_meals.midnightconfig.increaseHoneySaturation": "Increase Bee Nectar Intensity",
+  "hearty_meals.midnightconfig.potionBundleStacking": "Brew Bundle Stacking",
+  "hearty_meals.midnightconfig.displayHealthGained": "Display Health Gotten",
+  "hearty_meals.midnightconfig.moveArmorBar": "Move Clothing Bar"
+}
