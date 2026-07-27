@@ -9,8 +9,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.component.DataComponents;
@@ -42,7 +42,7 @@ public class RenderFoodHealingEvent {
 
 	public static class Hearts {
 		public static Identifier fullTexture = null, halfTexture = null;
-		public static Gui.HeartType heartType;
+		public static Hud.HeartType heartType;
 		public static int[] xPoses = null, yPoses = null;
 		public static int color = -1;
 
