@@ -4,6 +4,7 @@ import moriyashiine.heartymeals.client.payload.ForceDisableSprintingPayload;
 import moriyashiine.heartymeals.client.payload.SyncNaturalHealthRegenerationPayload;
 import moriyashiine.heartymeals.client.payload.SyncUniqueIngredientsPayload;
 import moriyashiine.heartymeals.common.event.BedHealingEvent;
+import moriyashiine.heartymeals.common.event.IncreaseSaturationEvent;
 import moriyashiine.heartymeals.common.event.SyncValuesEvent;
 import moriyashiine.heartymeals.common.event.UniqueIngredientsEvent;
 import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
@@ -43,6 +44,7 @@ public class HeartyMeals implements ModInitializer {
 
 	private void initEvents() {
 		BedHealingEvent.init();
+		IncreaseSaturationEvent.init();
 		SyncValuesEvent.init();
 		UniqueIngredientsEvent.init();
 	}
