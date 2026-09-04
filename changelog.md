@@ -1,4 +1,10 @@
 ------------------------------------------------------
+Version 26.1-r3
+------------------------------------------------------
+- regenerationTimeMultiplier can now go down to 0
+    - the final ticks per heal value is however capped at 1 tick to avoid crashes
+
+------------------------------------------------------
 Version 26.1-r2
 ------------------------------------------------------
 - compile against latest strawberrylib
