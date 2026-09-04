@@ -22,7 +22,7 @@ public class HeartyMealsConfig extends MidnightConfig {
 
 	@Entry(min = 0)
 	public static float healthGainMultiplier = 1;
-	@Entry(min = 1)
+	@Entry(min = 0)
 	public static float regenerationTimeMultiplier = 1;
 
 	@Entry(category = "client")
