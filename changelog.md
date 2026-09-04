@@ -1,4 +1,10 @@
 ------------------------------------------------------
+Version 26.2-r4
+------------------------------------------------------
+- regenerationTimeMultiplier can now go down to 0
+  - the final ticks per heal value is however capped at 1 tick to avoid crashes
+
+------------------------------------------------------
 Version 26.2-r3
 ------------------------------------------------------
 - use new strawberrylib food events
