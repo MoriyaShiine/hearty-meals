@@ -15,7 +15,8 @@
 	"MinecraftServerMixin",
 	"MobEffectUtilMixin",
 	"PlayerMixin",
-	"SaturationMobEffectMixin"
+	"SaturationMobEffectMixin",
+	"integration.farmersdelight.NourishmentAlwaysEatMixinSquared"
   ],
   "client": [
 	"client.EffectsInInventoryMixin",

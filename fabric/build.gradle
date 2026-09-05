@@ -63,6 +63,7 @@ repositories {
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraft_version}")
 	implementation("net.fabricmc:fabric-loader:${loader_version}")
+	includeImplementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${mixin_squared_version}"))
 
 	includeApi("maven.modrinth:midnightlib:${midnightlib_version}-fabric")
 
