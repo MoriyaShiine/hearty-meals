@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 26.1-r4
+------------------------------------------------------
+- use new strawberrylib food events
+- high saturation food no longer has ridiculously fast heal times
+- the unique ingredient bonus now applies to nutrition instead of saturation
+- fix armor bar being displayed at the incorrect height with more than 1 health bar on neoforge
+
+------------------------------------------------------
 Version 26.1-r3
 ------------------------------------------------------
 - regenerationTimeMultiplier can now go down to 0
