@@ -2,11 +2,9 @@ package moriyashiine.heartymeals.common.component.entity;
 
 import moriyashiine.heartymeals.common.HeartyMeals;
 import moriyashiine.heartymeals.common.HeartyMealsConfig;
-import moriyashiine.heartymeals.common.event.UniqueIngredientsEvent;
 import moriyashiine.heartymeals.common.init.HeartyMealsEntityComponents;
 import moriyashiine.heartymeals.common.init.HeartyMealsMobEffects;
 import moriyashiine.heartymeals.common.tag.HeartyMealsBlockTags;
-import moriyashiine.heartymeals.common.tag.HeartyMealsItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,8 +30,6 @@ import vectorwing.farmersdelight.common.registry.ModEffects;
 import java.util.Optional;
 
 public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingComponent {
-	public static float modifiedSaturation = -1;
-
 	private final Player obj;
 	private boolean fromSaturation = false;
 	private int healAmount = 0, ticksPerHeal = 0;
@@ -118,13 +114,6 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 				}
 			}
 		}
-	}
-
-	public static float getModifiedSaturation(ItemStack stack, float saturation) {
-		if (stack.is(HeartyMealsItemTags.INCREASED_SATURATION)) {
-			saturation *= 2.6F;
-		}
-		return saturation + UniqueIngredientsEvent.getUniqueIngredients(stack.getItem()) / 2F;
 	}
 
 	public static int getTicksPerHeal(float saturation) {

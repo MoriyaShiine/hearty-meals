@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -58,16 +57,6 @@ public abstract class FoodDataMixin {
 	@Inject(method = "hasEnoughFood", at = @At("HEAD"), cancellable = true)
 	private void heartymeals$allowSprinting(CallbackInfoReturnable<Boolean> cir) {
 		cir.setReturnValue(true);
-	}
-
-	@ModifyVariable(method = "add", at = @At("HEAD"), argsOnly = true)
-	private float heartymeals$increasedSaturation(float saturation) {
-		if (FoodHealingComponent.modifiedSaturation != -1) {
-			float modifiedSaturation = FoodHealingComponent.modifiedSaturation;
-			FoodHealingComponent.modifiedSaturation = -1;
-			return modifiedSaturation;
-		}
-		return saturation;
 	}
 
 	@Inject(method = "add", at = @At("HEAD"))
