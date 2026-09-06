@@ -54,6 +54,8 @@ repositories {
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraft_version}")
 	forgeUserdev("net.neoforged:neoforge:${neoforge_version}:userdev")
+	compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${mixin_squared_version}"))
+	includeImplementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:${mixin_squared_version}"))
 	implementation("org.sinytra.launchpad:launchpad:${launchpad_version}")
 
 	includeApi("maven.modrinth:midnightlib:${midnightlib_version}-neoforge")
