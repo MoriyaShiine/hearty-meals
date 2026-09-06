@@ -46,6 +46,12 @@
   },
   "custom": {
 	"launchpad:compatible": true,
+	"launchpad:overrides": {
+	  "mixins": [
+		"${mod_id}.mixins.json",
+		"${mod_id}_neoforge.mixins.json"
+	  ]
+	},
 	"cardinal-components": [
 	  "${mod_id}:food_healing"
 	]
