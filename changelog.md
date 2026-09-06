@@ -1,4 +1,11 @@
 ------------------------------------------------------
+Version 26.2-r5
+------------------------------------------------------
+- high saturation food no longer has ridiculously fast heal times
+- the unique ingredient bonus now applies to nutrition instead of saturation
+- farmer's delight nourishment no longer allows you to eat at any time
+
+------------------------------------------------------
 Version 26.2-r4
 ------------------------------------------------------
 - regenerationTimeMultiplier can now go down to 0
