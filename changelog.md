@@ -4,6 +4,7 @@ Version 26.1-r4
 - use new strawberrylib food events
 - high saturation food no longer has ridiculously fast heal times
 - the unique ingredient bonus now applies to nutrition instead of saturation
+- farmer's delight nourishment no longer allows you to eat at any time
 - fix armor bar being displayed at the incorrect height with more than 1 health bar on neoforge
 
 ------------------------------------------------------
