@@ -15,7 +15,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -139,9 +138,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	private void tickCampfire() {
 		if (obj.tickCount % 20 == 0) {
 			if (HeartyMealsConfig.campfireHealing) {
-				Optional<BlockPos> closestCampfire = BlockPos.findClosestMatch(obj.blockPosition(), 5, 5, foundPos -> isCozySource(obj.level(), foundPos));
+				Optional<BlockPos> closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 5, 5).filterState(FoodHealingComponent::isCozySource).findFirst();
 				if (closestCampfire.isEmpty()) {
-					closestCampfire = BlockPos.findClosestMatch(obj.blockPosition(), 15, 15, foundPos -> isCozySource(obj.level(), foundPos) && ((CampfireBlock) Blocks.CAMPFIRE).isSmokeSource(obj.level().getBlockState(foundPos.below())));
+					closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 15, 15).filterPos(pos -> isCozySource(obj.level().getBlockState(pos)) && ((CampfireBlock) Blocks.CAMPFIRE).isSmokeSource(obj.level().getBlockState(pos.below()))).findFirst();
 				}
 				if (closestCampfire.isPresent()) {
 					obj.addEffect(new MobEffectInstance(HeartyMealsMobEffects.COZY, MobEffectInstance.INFINITE_DURATION, 0, true, false, true));
@@ -167,8 +166,7 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 		}
 	}
 
-	private static boolean isCozySource(Level level, BlockPos pos) {
-		BlockState state = level.getBlockState(pos);
+	private static boolean isCozySource(BlockState state) {
 		if (state.is(HeartyMealsBlockTags.COZY_SOURCES)) {
 			return !state.hasProperty(BlockStateProperties.LIT) || state.getValue(BlockStateProperties.LIT);
 		}
