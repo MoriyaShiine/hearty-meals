@@ -138,9 +138,9 @@ public class FoodHealingComponent implements AutoSyncedComponent, CommonTickingC
 	private void tickCampfire() {
 		if (obj.tickCount % 20 == 0) {
 			if (HeartyMealsConfig.campfireHealing) {
-				Optional<BlockPos> closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 5, 5).filterState(FoodHealingComponent::isCozySource).findFirst();
+				Optional<BlockPos> closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 5).filterState(FoodHealingComponent::isCozySource).findFirst();
 				if (closestCampfire.isEmpty()) {
-					closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 15, 15).filterPos(pos -> isCozySource(obj.level().getBlockState(pos)) && ((CampfireBlock) Blocks.CAMPFIRE).isSmokeSource(obj.level().getBlockState(pos.below()))).findFirst();
+					closestCampfire = obj.level().findBlocksInBoxByManhattanDistance(obj.blockPosition(), 15).filterPos(pos -> isCozySource(obj.level().getBlockState(pos)) && ((CampfireBlock) Blocks.CAMPFIRE).isSmokeSource(obj.level().getBlockState(pos.below()))).findFirst();
 				}
 				if (closestCampfire.isPresent()) {
 					obj.addEffect(new MobEffectInstance(HeartyMealsMobEffects.COZY, MobEffectInstance.INFINITE_DURATION, 0, true, false, true));
