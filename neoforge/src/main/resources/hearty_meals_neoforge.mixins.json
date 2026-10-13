@@ -3,7 +3,7 @@
   "package": "moriyashiine.heartymeals.neoforge.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
-	"client.GuiMixin"
+	"client.HudMixin"
   ],
   "injectors": {
 	"defaultRequire": 1
